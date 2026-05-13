@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber R&D — 공격자 관점의 원천 기술 연구 | STEALIEN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  --ink:        #0A1A14;
+  --ink-mid:    #2C4A3E;
+  --ink-mute:   #6B8C80;
+  --teal:       #1D9E75;
+  --teal-hi:    #25C490;
+  --teal-pale:  #E6F7F0;
+  --teal-dark:  #041A14;
+  --border:     rgba(29,158,117,0.12);
+  --border-mid: rgba(29,158,117,0.22);
+  --white:      #FFFFFF;
+  --font-main:  'DM Sans', sans-serif;
+  --font-mono:  'DM Mono', monospace;
+}
+
+/* RESET & BASE */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-main);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* LAYOUT */
+.wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
+
+/* NAV */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(4,26,20,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(29,158,117,0.15);
+}
+.nav-inner {
+  max-width: 1020px; margin: 0 auto; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-brand-logo {
+  width: 28px; height: 28px;
+  background: var(--teal);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-brand-logo svg { width: 16px; height: 16px; }
+.nav-brand-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); letter-spacing: 0.03em; }
+.nav-brand-name span { color: var(--teal-hi); }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { font-size: 12px; color: rgba(255,255,255,0.45); transition: color .15s; }
+.nav-links a:hover { color: rgba(255,255,255,0.8); }
+.nav-cta {
+  background: var(--teal); color: var(--white);
+  font-size: 12px; font-weight: 500;
+  padding: 7px 18px; border-radius: 5px;
+  transition: background .15s;
+}
+.nav-cta:hover { background: var(--teal-hi); }
+
+/* SECTION FRAME */
+.section { padding: 28px 0; }
+.sec-title {
+  font-size: 30px; font-weight: 500;
+  color: var(--ink); line-height: 1.25;
+  margin-bottom: 6px;
+}
+.sec-desc {
+  font-size: 14px; color: var(--ink-mute);
+  line-height: 1.75; max-width: 780px;
+  margin-bottom: 16px;
+}
+.sec-title.center { text-align: center; }
+.sec-desc.center { text-align: center; max-width: none; margin-left: auto; margin-right: auto; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ① HERO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
+  background: var(--teal-dark);
+  padding: 72px 0 56px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; right: -120px; top: -120px;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,158,117,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { display: grid; grid-template-columns: 1fr 380px; gap: 60px; align-items: center; }
+.hero-service-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px; color: var(--teal-hi);
+  letter-spacing: 0.08em; margin-bottom: 18px;
+}
+.hero-service-tag-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+.hero h1 {
+  font-size: 30px; font-weight: 500; color: var(--white);
+  line-height: 1.3; margin-bottom: 18px; letter-spacing: -0.01em;
+}
+.hero h1 em { color: var(--teal-hi); font-style: normal; }
+.hero-sub {
+  font-size: 15px; color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+}
+.hero-tab-bar {
+  margin-top: 40px; padding: 6px 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  display: flex; gap: 2px; flex-wrap: wrap; align-items: center;
+  justify-content: space-between;
+}
+.hero-tab {
+  font-size: 12px; color: rgba(255,255,255,0.55);
+  padding: 8px 18px; border-radius: 999px;
+  cursor: pointer; text-decoration: none;
+  transition: color .15s, background .15s;
+  font-weight: 500;
+  flex: 1; text-align: center; min-width: 0;
+  white-space: nowrap;
+}
+.hero-tab:hover { color: rgba(255,255,255,0.9); }
+.hero-tab.active {
+  background: var(--teal-hi);
+  color: var(--white);
+  font-weight: 600;
+}
+.hero-graphic { position: relative; height: 280px; }
+.hero-graphic svg { width: 100%; height: 100%; }
+
+/* feature pills */
+.feature-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+.feature-pill {
+  font-size: 12px;
+  color: var(--ink-mid);
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 7px 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  font-family: var(--font-main);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ② 서비스 정의 및 핵심 가치
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.intro-text {
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.85;
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto 18px;
+}
+.intro-text-followup {
+  font-size: 14px;
+  color: var(--ink-mute);
+  margin-bottom: 40px;
+  max-width: 820px;
+}
+.intro-text strong {
+  color: var(--teal);
+  font-weight: 500;
+}
+
+/* 섹션 알약 헤더 (R&D 페이지 공용) */
+.sec-eyebrow-wrap {
+  text-align: center;
+  margin-bottom: 14px;
+}
+.sec-eyebrow-pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--teal);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* R&D 본문 단락 (가치 카드 대체) */
+.rnd-narrative {
+  max-width: 820px;
+  margin: 24px auto 0;
+  display: flex; flex-direction: column;
+  gap: 16px;
+  text-align: center;
+}
+.rnd-narrative p {
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.85;
+}
+.rnd-narrative strong {
+  color: var(--teal);
+  font-weight: 500;
+}
+.value-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+}
+.value-card {
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  border-radius: 12px;
+  padding: 26px 24px;
+  position: relative;
+}
+.value-card-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--teal-pale); color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+}
+.value-card-icon svg { width: 20px; height: 20px; }
+.value-card-name {
+  font-size: 15px; font-weight: 500; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.35;
+}
+.value-card-desc {
+  font-size: 12px; color: var(--ink-mute);
+  line-height: 1.7;
+}
+/* AI 레드티밍 강조 카드 (연보라) */
+.value-card.value-card-purple {
+  background: #F4F1FB;
+  border: 1px solid #C9BCEA;
+}
+.value-card.value-card-purple .value-card-icon {
+  background: #E5DDF6;
+  color: #7B5FBF;
+}
+.value-card.value-card-purple .value-card-name {
+  color: #3E2F73;
+}
+.value-card.value-card-purple .value-card-desc {
+  color: #5B4A8F;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ③ AI Innovation — 통계 + 흐름 비교
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.innov-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+  margin-bottom: 28px;
+}
+.innov-stat {
+  background: var(--white);
+  border-radius: 12px;
+  padding: 26px 24px 22px;
+  text-align: center;
+}
+.innov-stat-val {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 600;
+  color: var(--teal);
+  line-height: 1;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+.innov-stat-label {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.innov-stat-note {
+  font-size: 11px;
+  color: var(--ink-mute);
+  font-style: italic;
+}
+
+.innov-compare {
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 12px;
+  padding: 22px 24px;
+  display: flex; flex-direction: column;
+  gap: 10px;
+}
+.innov-compare-row {
+  display: grid;
+  grid-template-columns: 130px 1fr;
+  gap: 18px;
+  align-items: center;
+}
+.innov-compare-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+}
+.innov-compare-row-ai .innov-compare-label {
+  color: var(--teal);
+  font-weight: 600;
+}
+.innov-compare-flow {
+  display: flex; align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.innov-flow-step {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+.innov-flow-arrow {
+  color: var(--ink-mute);
+  font-size: 14px;
+}
+.innov-flow-merged {
+  background: var(--teal);
+  color: var(--white);
+  border-radius: 8px;
+  padding: 11px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  width: 100%;
+  text-align: center;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ④ Research Direction — 2 카드
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.direction-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 24px;
+}
+.direction-card {
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  border-radius: 14px;
+  padding: 28px 30px 30px;
+  display: flex; flex-direction: column;
+}
+.direction-card.direction-card-purple {
+  background: #F4F1FB;
+  border: 1px solid #C9BCEA;
+}
+.direction-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 22px;
+}
+.direction-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  background: var(--teal);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 0;
+}
+.direction-card.direction-card-purple .direction-card-icon {
+  background: var(--ink);
+  color: var(--white);
+}
+.direction-card-icon svg { width: 22px; height: 22px; }
+.direction-card-title-block {
+  display: flex; flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.direction-card-tag {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+  text-transform: none;
+  margin-bottom: 0;
+}
+.direction-card.direction-card-purple .direction-card-tag {
+  color: var(--ink);
+}
+.direction-card-name {
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--ink-mute);
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+.direction-card.direction-card-purple .direction-card-name {
+  color: var(--ink-mute);
+}
+.direction-card-list {
+  list-style: none; padding: 0; margin: 0 0 18px;
+  display: flex; flex-direction: column;
+  gap: 8px;
+}
+.direction-card-list li {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.55;
+  padding-left: 14px;
+  position: relative;
+}
+.direction-card-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+.direction-card.direction-card-purple .direction-card-list li::before {
+  background: #7B5FBF;
+}
+.direction-card.direction-card-purple .direction-card-list li {
+  color: #5B4A8F;
+}
+.direction-card-link {
+  font-size: 13px;
+  color: var(--teal);
+  text-decoration: none;
+  font-weight: 500;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+}
+.direction-card.direction-card-purple .direction-card-link {
+  color: #7B5FBF;
+  border-top-color: #C9BCEA;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑤ Research Spectrum — 10개 영역 카드
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.spectrum-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+.spectrum-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 18px 18px 20px;
+  display: flex; flex-direction: column;
+  gap: 6px;
+}
+.spectrum-card-icon {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 6px;
+}
+.spectrum-card-icon svg { width: 16px; height: 16px; }
+.spectrum-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.spectrum-card-desc {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  line-height: 1.55;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑥ Global Capability — 3개 카드
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.capability-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 24px;
+}
+.capability-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 26px 24px 28px;
+  display: flex; flex-direction: column;
+  gap: 12px;
+}
+.capability-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 4px;
+}
+.capability-card-icon svg { width: 22px; height: 22px; }
+.capability-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.capability-card-pills {
+  display: flex; flex-wrap: wrap; gap: 6px;
+}
+.capability-pill {
+  font-size: 11px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 4px 11px;
+  font-weight: 500;
+}
+.capability-card-desc {
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑦ 국가적 프로젝트 강조
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.national-block {
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 14px;
+  padding: 44px 48px 48px;
+  margin-top: 12px;
+  position: relative;
+  overflow: hidden;
+}
+.national-block::before {
+  content: '';
+  position: absolute;
+  right: -120px; top: -120px;
+  width: 380px; height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,158,117,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.national-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  position: relative;
+}
+.national-headline {
+  font-size: 28px;
+  font-weight: 500;
+  color: var(--ink);
+  line-height: 1.35;
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+  position: relative;
+}
+.national-desc {
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.85;
+  margin-bottom: 28px;
+  max-width: 780px;
+  position: relative;
+}
+.national-desc strong {
+  color: var(--teal);
+  font-weight: 600;
+}
+.national-stat-row {
+  display: flex; align-items: flex-start; gap: 28px;
+  padding-top: 24px;
+  border-top: 1px solid var(--border-mid);
+  position: relative;
+}
+.national-stat-val {
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--teal);
+  font-family: var(--font-mono);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.national-stat-text {
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.75;
+}
+.national-stat-text strong {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+
+/* CTA eyebrow */
+.cta-eyebrow-wrap {
+  margin-bottom: 14px;
+}
+.cta-eyebrow {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 5px 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑧ CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.cta-section {
+  background: var(--teal-pale); padding: 56px 0; text-align: center;
+  border-top: 1px solid var(--border-mid);
+}
+.cta-section h2 { font-size: 28px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+.cta-section p { font-size: 14px; color: var(--ink-mid); margin-bottom: 28px; line-height: 1.75; }
+.cta-btns { display: flex; justify-content: center; gap: 12px; }
+.btn-cta { background: var(--teal); color: var(--white); font-size: 13px; font-weight: 500; padding: 12px 28px; border-radius: 6px; transition: background .15s; }
+.btn-cta:hover { background: var(--teal-hi); }
+.btn-cta-outline { border: 1px solid var(--border-mid); color: var(--ink-mid); font-size: 13px; padding: 12px 28px; border-radius: 6px; transition: border-color .15s, color .15s; background: var(--white); }
+.btn-cta-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+/* FOOTER */
+.footer { background: #F7F8F7; padding: 48px 0 0; border-top: 1px solid #E4E9E6; }
+.footer-inner { display: grid; grid-template-columns: 220px 160px 160px 260px; gap: 0; margin-bottom: 0; }
+.footer-brand { padding-right: 40px; }
+.footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.footer-logo-mark { width: 28px; height: 28px; }
+.footer-logo-name { font-size: 15px; font-weight: 700; color: #5B3FBF; letter-spacing: 0.02em; }
+.footer-brand-desc { font-size: 12px; color: #6B7C74; line-height: 1.7; margin-bottom: 18px; }
+.footer-sns { display: flex; gap: 8px; }
+.footer-sns-icon { width: 30px; height: 30px; border-radius: 4px; border: 1px solid #D8DDD9; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #5B7068; cursor: pointer; }
+.footer-col { padding: 0 20px; }
+.footer-col h5 { font-size: 13px; font-weight: 600; color: #1A2E26; margin-bottom: 14px; }
+.footer-col a { display: block; font-size: 13px; color: #5B7068; margin-bottom: 10px; cursor: pointer; }
+.footer-col a:hover { color: var(--teal); }
+.footer-contact { padding-left: 20px; }
+.footer-contact h5 { font-size: 13px; font-weight: 600; color: #1A2E26; margin-bottom: 14px; }
+.footer-contact-group { margin-bottom: 14px; }
+.footer-contact-label { font-size: 12px; font-weight: 600; color: #1A2E26; margin-bottom: 3px; }
+.footer-contact-tel { font-size: 12px; color: #5B7068; margin-bottom: 2px; }
+.footer-contact-email { font-size: 12px; color: var(--teal); }
+.footer-bottom { border-top: 1px solid #D8DDD9; margin-top: 36px; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; }
+.footer-copyright { font-size: 11px; color: #8FA89C; }
+.footer-bottom-links { display: flex; gap: 16px; }
+.footer-bottom-links a { font-size: 11px; color: #5B7068; cursor: pointer; }
+.footer-bottom-links a:hover { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <div class="nav-brand-logo">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 5v4c0 3 2.5 5.2 6 6 3.5-.8 6-3 6-6V5L8 2z" fill="white" opacity=".9"/></svg>
+      </div>
+      <span class="nav-brand-name">STEALIEN <span>Cyber R&amp;D</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#value">AI 시대의 보안</a>
+      <a href="#innovation">AI Innovation</a>
+      <a href="#direction">Research Direction</a>
+      <a href="#spectrum">Research Spectrum</a>
+      <a href="#capability">Global Capability</a>
+      <a href="#projects">국가적 프로젝트</a>
+    </div>
+    <a href="#cta" class="nav-cta">Partnership</a>
+  </div>
+</nav>
+
+<!-- ① HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-service-tag">
+          <div class="hero-service-tag-dot"></div>
+          Cyber R&amp;D
+        </div>
+        <h1>공격자 관점의 원천 기술,<br><em>스틸리언 사이버 보안 연구 개발</em></h1>
+        <p class="hero-sub">세계 최고 수준의 화이트 해커가 공격자 관점에서 수행하는 사이버 보안 기술 연구 및<br>국가 차원의 보안 난제 해결을 통한 국가 안보·글로벌 안전 기여</p>
+      </div>
+      <div class="hero-graphic">
+        <svg viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- 좌측: 다양한 연구 영역 (다영역 그리드) -->
+          <g>
+            <rect x="22" y="100" width="60" height="90" rx="8" fill="rgba(123,95,191,0.08)" stroke="rgba(123,95,191,0.4)" stroke-width="0.8"/>
+            <!-- 6개 도메인 미니 박스 (3x2) -->
+            <rect x="28" y="108" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="35" y="118" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">WEB</text>
+            <rect x="44" y="108" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="51" y="118" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">MOB</text>
+            <rect x="60" y="108" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="67" y="118" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">CLD</text>
+            <rect x="28" y="124" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="35" y="134" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">IoT</text>
+            <rect x="44" y="124" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="51" y="134" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">AUT</text>
+            <rect x="60" y="124" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="67" y="134" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">AI</text>
+            <rect x="28" y="140" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="35" y="150" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">EMB</text>
+            <rect x="44" y="140" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="51" y="150" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">FW</text>
+            <rect x="60" y="140" width="14" height="14" rx="2" fill="rgba(123,95,191,0.18)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="67" y="150" text-anchor="middle" font-size="5" fill="#7B5FBF" font-family="DM Mono">OSS</text>
+            <text x="52" y="178" text-anchor="middle" font-size="7" fill="#7B5FBF" font-family="DM Mono" letter-spacing="0.05em">ATTACK SURFACE</text>
+          </g>
+
+          <!-- 좌→중앙: 연구 흐름 -->
+          <line x1="82" y1="135" x2="125" y2="135" stroke="#7B5FBF" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.6"/>
+          <circle r="2" fill="#7B5FBF">
+            <animateMotion dur="2s" repeatCount="indefinite" path="M 84 135 L 124 138"/>
+            <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+          </circle>
+          <circle r="2" fill="#7B5FBF">
+            <animateMotion dur="2s" begin="0.7s" repeatCount="indefinite" path="M 84 145 L 124 142"/>
+            <animate attributeName="opacity" values="0;1;0" dur="2s" begin="0.7s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- 중앙: 화이트해커 연구실 (방패 + 연구 노드) -->
+          <g>
+            <path d="M170 88 L138 100 L138 138 Q138 168 170 184 Q202 168 202 138 L202 100 Z"
+                  fill="rgba(37,196,144,0.20)" stroke="#25C490" stroke-width="1.4"/>
+            <!-- AI 노드 (중앙 강조) -->
+            <circle cx="170" cy="125" r="6" fill="#25C490" opacity="0.9"/>
+            <text x="170" y="129" text-anchor="middle" font-size="6" fill="#FFFFFF" font-family="DM Mono">AI</text>
+            <!-- 주변 연구 노드 -->
+            <circle cx="155" cy="138" r="3" fill="#25C490" opacity="0.6"/>
+            <circle cx="185" cy="138" r="3" fill="#25C490" opacity="0.6"/>
+            <circle cx="155" cy="155" r="3" fill="#25C490" opacity="0.5"/>
+            <circle cx="185" cy="155" r="3" fill="#25C490" opacity="0.5"/>
+            <circle cx="170" cy="165" r="3.5" fill="#25C490" opacity="0.7"/>
+            <!-- 연결선 -->
+            <line x1="170" y1="125" x2="155" y2="138" stroke="#25C490" stroke-width="0.5" opacity="0.5"/>
+            <line x1="170" y1="125" x2="185" y2="138" stroke="#25C490" stroke-width="0.5" opacity="0.5"/>
+            <line x1="155" y1="138" x2="155" y2="155" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <line x1="185" y1="138" x2="185" y2="155" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <line x1="155" y1="155" x2="170" y2="165" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <line x1="185" y1="155" x2="170" y2="165" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+
+            <text x="170" y="178" text-anchor="middle" font-size="8" fill="#5DCAA5" font-family="DM Mono" letter-spacing="0.05em">RESEARCH</text>
+            <!-- 펄스 -->
+            <circle cx="170" cy="138" r="60" fill="none" stroke="#25C490" stroke-width="0.5" opacity="0.4">
+              <animate attributeName="r" values="60;72;60" dur="2.4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.4;0;0.4" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+
+          <!-- 중앙→우측: CVE/제보 흐름 -->
+          <line x1="202" y1="140" x2="258" y2="140" stroke="rgba(37,196,144,0.5)" stroke-width="0.7" stroke-dasharray="3 3"/>
+          <circle r="2" fill="#25C490">
+            <animateMotion dur="1.6s" repeatCount="indefinite" path="M 204 140 L 256 140"/>
+          </circle>
+
+          <!-- 우측: 발견된 CVE/취약점 -->
+          <g>
+            <rect x="258" y="100" width="60" height="90" rx="8" fill="rgba(29,158,117,0.10)" stroke="#25C490" stroke-width="1"/>
+            <!-- CVE 카드들 -->
+            <rect x="266" y="110" width="44" height="14" rx="2" fill="rgba(29,158,117,0.18)" stroke="#25C490" stroke-width="0.5"/>
+            <text x="288" y="120" text-anchor="middle" font-size="6" fill="#25C490" font-family="DM Mono">CVE-2024</text>
+            <rect x="266" y="128" width="44" height="14" rx="2" fill="rgba(29,158,117,0.18)" stroke="#25C490" stroke-width="0.5"/>
+            <text x="288" y="138" text-anchor="middle" font-size="6" fill="#25C490" font-family="DM Mono">CVE-2025</text>
+            <rect x="266" y="146" width="44" height="14" rx="2" fill="rgba(29,158,117,0.18)" stroke="#25C490" stroke-width="0.5"/>
+            <text x="288" y="156" text-anchor="middle" font-size="6" fill="#25C490" font-family="DM Mono">CVE-2026</text>
+            <!-- 50+ 라벨 -->
+            <text x="288" y="178" text-anchor="middle" font-size="11" fill="#25C490" font-family="DM Mono" font-weight="600">50+</text>
+            <text x="288" y="187" text-anchor="middle" font-size="5" fill="#5DCAA5" font-family="DM Mono">DISCLOSURES</text>
+          </g>
+
+          <!-- 상단 라벨 -->
+          <text x="170" y="36" text-anchor="middle" font-size="10" fill="#5DCAA5" font-family="DM Mono" letter-spacing="0.1em">RESEARCH · DISCOVER · DISCLOSE</text>
+          <!-- 하단 라벨 -->
+          <rect x="92" y="218" width="156" height="22" rx="5" fill="rgba(29,158,117,0.12)" stroke="rgba(29,158,117,0.3)" stroke-width="0.8"/>
+          <text x="170" y="232" text-anchor="middle" font-size="9" fill="#5DCAA5" font-family="DM Mono">화이트해커 연구 역량</text>
+        </svg>
+      </div>
+    </div>
+    <!-- Hero 탭 바 (컨설팅 4종) -->
+  </div>
+</section>
+
+<!-- ② AI 시대의 보안 -->
+<section class="section" id="value">
+  <div class="wrap">
+    <div class="feature-pills">
+      <span class="feature-pill">AI 보안 연구</span>
+      <span class="feature-pill">모바일 · IoT</span>
+      <span class="feature-pill">Automotive</span>
+      <span class="feature-pill">글로벌 화이트해커</span>
+      <span class="feature-pill">CVE 제보</span>
+    </div>
+    <div class="sec-title center" style="margin-bottom:20px">AI는 반드시 활용해야 하지만 ─ 신뢰할 보안 체계 없이는 통제할 수 없습니다</div>
+    <p class="intro-text">AI는 데이터·권한·실행이 연결되는 새로운 인프라이며 기존 보안 체계만으로는 통제가 어려워지고 있습니다.<br>공격자는 AI의 오작동과 우회 가능성을 이용해 내부 시스템과 정보 흐름까지 침투를 시도하고,<br>결과적으로 선제적인 AI 보안 연구 없이는 핵심 자산과 서비스 신뢰가 심각한 위협에 노출될 수 있습니다.</p>
+
+    <div class="rnd-narrative">
+      <p>스틸리언 Cyber R&amp;D는 <strong>AI·모바일·IoT·임베디드 환경 전반</strong>에서 공격 연구와 보안 기술을 고도화하며,<br>AI를 안전하게 보호하는 동시에 더 빠르고 정교한 차세대 보안 체계를 연구합니다.</p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ③ AI Innovation -->
+<section class="section" id="innovation">
+  <div class="wrap">
+    <div class="sec-eyebrow-wrap">
+      <span class="sec-eyebrow-pill">AI Innovation</span>
+    </div>
+    <div class="sec-title center">스틸리언은 AI와 함께 공격 연구의 속도와 범위를 바꾸고 있습니다</div>
+    <p class="sec-desc center">공격 탐색부터 분석·검증·재현까지 반복적인 연구 과정을 AI 기반으로 가속화하며<br>더 넓은 공격 표면과 복합 환경에 대한 분석 효율을 높이고 있습니다.</p>
+
+    <!-- 통계 3개 -->
+    <div class="innov-stats">
+      <div class="innov-stat">
+        <div class="innov-stat-val">50건+</div>
+        <div class="innov-stat-label">AI 기반 연구를 통해 발견한<br>글로벌 벤더사 취약점 수</div>
+        <div class="innov-stat-note">* OpenAI, MS, Synology 등</div>
+      </div>
+      <div class="innov-stat">
+        <div class="innov-stat-val">3개월</div>
+        <div class="innov-stat-label">50건 이상 발견까지 걸린 시간</div>
+        <div class="innov-stat-note">* 2026년 1분기 기준, 점차 가속화</div>
+      </div>
+      <div class="innov-stat">
+        <div class="innov-stat-val">10배+</div>
+        <div class="innov-stat-label">인력 대비 AI 효율성·생산성</div>
+        <div class="innov-stat-note">* 5건 → 50건 이상</div>
+      </div>
+    </div>
+
+    <!-- 흐름 비교 -->
+    <div class="innov-compare">
+      <div class="innov-compare-row">
+        <div class="innov-compare-label">인력 투입 시</div>
+        <div class="innov-compare-flow">
+          <div class="innov-flow-step">탐색</div>
+          <div class="innov-flow-arrow">→</div>
+          <div class="innov-flow-step">분석</div>
+          <div class="innov-flow-arrow">→</div>
+          <div class="innov-flow-step">검증</div>
+          <div class="innov-flow-arrow">→</div>
+          <div class="innov-flow-step">재현</div>
+        </div>
+      </div>
+      <div class="innov-compare-row innov-compare-row-ai">
+        <div class="innov-compare-label">AI 투입 시</div>
+        <div class="innov-compare-flow">
+          <div class="innov-flow-merged">과정 통합 · 자동화 · 효율화</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ④ Research Direction -->
+<section class="section" id="direction">
+  <div class="wrap">
+    <div class="sec-eyebrow-wrap">
+      <span class="sec-eyebrow-pill">Research Direction</span>
+    </div>
+    <div class="sec-title center">AI 시대 보안의 방향성</div>
+
+    <div class="direction-grid">
+      <div class="direction-card">
+        <div class="direction-card-header">
+          <div class="direction-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"></circle>
+              <circle cx="12" cy="12" r="6"></circle>
+              <circle cx="12" cy="12" r="2"></circle>
+            </svg>
+          </div>
+          <div class="direction-card-title-block">
+            <div class="direction-card-tag">AI for Security</div>
+            <div class="direction-card-name">AI를 활용한 공격 연구 고도화</div>
+          </div>
+        </div>
+        <ul class="direction-card-list">
+          <li>AI 기반 공격 분석 및 자동화 연구</li>
+          <li>AlienRay / Diffuto 기반 연구 역량</li>
+          <li>ASM / Web / Mobile / Firmware / Binary / Source Code 분석</li>
+          <li>AI를 활용한 공격 탐색 및 취약점 연구 고도화</li>
+        </ul>
+        <a href="#" class="direction-card-link">AI 해커 기반 모의해킹 서비스 보기 →</a>
+      </div>
+      <div class="direction-card direction-card-purple">
+        <div class="direction-card-header">
+          <div class="direction-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <circle cx="12" cy="11" r="3"></circle>
+            </svg>
+          </div>
+          <div class="direction-card-title-block">
+            <div class="direction-card-tag">Security for AI</div>
+            <div class="direction-card-name">AI 시스템 자체의 보안 연구</div>
+          </div>
+        </div>
+        <ul class="direction-card-list">
+          <li>생성형 AI 및 AI 서비스 보안 연구</li>
+          <li>LLM / RAG / AI Agent 공격 분석</li>
+          <li>AI Red Teaming 및 안전성 검증</li>
+          <li>정책 준수 / 개인정보 / 적대적 입력 대응</li>
+        </ul>
+        <a href="#" class="direction-card-link">AI Red Teaming 서비스 보기 →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑤ Research Spectrum -->
+<section class="section" id="spectrum">
+  <div class="wrap">
+    <div class="sec-eyebrow-wrap">
+      <span class="sec-eyebrow-pill">Research Spectrum</span>
+    </div>
+    <div class="sec-title center">일반 IT 인프라를 넘어<br>Automotive·IoT·AI까지 확장되는 실전 공격 연구 역량</div>
+    <p class="sec-desc center">글로벌 오픈소스 및 플랫폼 대상 취약점 연구와 실제 CVE 제보 경험을 기반으로,<br>다양한 환경에 대한 공격 분석 역량을 축적해왔습니다.</p>
+
+    <div class="spectrum-grid">
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">Browser</div>
+        <div class="spectrum-card-desc">브라우저 엔진, 웹 렌더링, 확장 프로그램 취약점 연구</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">Cloud</div>
+        <div class="spectrum-card-desc">AWS, Azure, GCP 클라우드 인프라 및 IAM 보안 연구</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+            <line x1="12" y1="18" x2="12.01" y2="18"></line>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">Mobile</div>
+        <div class="spectrum-card-desc">iOS, Android OS 및 애플리케이션 공격 분석</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="5.5" cy="17.5" r="3.5"></circle>
+            <circle cx="18.5" cy="17.5" r="3.5"></circle>
+            <path d="M15 6a1 1 0 0 0-1-1h-3l-1 4H6.5L4 13"></path>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">Automotive</div>
+        <div class="spectrum-card-desc">자동차 전장, CAN, ECU, OTA 보안 연구</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+            <rect x="9" y="9" width="6" height="6"></rect>
+            <line x1="9" y1="2" x2="9" y2="4"></line>
+            <line x1="15" y1="2" x2="15" y2="4"></line>
+            <line x1="9" y1="20" x2="9" y2="22"></line>
+            <line x1="15" y1="20" x2="15" y2="22"></line>
+            <line x1="20" y1="9" x2="22" y2="9"></line>
+            <line x1="20" y1="14" x2="22" y2="14"></line>
+            <line x1="2" y1="9" x2="4" y2="9"></line>
+            <line x1="2" y1="14" x2="4" y2="14"></line>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">Embedded</div>
+        <div class="spectrum-card-desc">펌웨어, 하드웨어, SoC, 부트로더 취약점 분석</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 3h18v18H3z"></path>
+            <path d="M9 3v18"></path>
+            <path d="M3 9h18"></path>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">IoT / OT</div>
+        <div class="spectrum-card-desc">스마트홈, 산업 제어, IoT 기기 보안 연구</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="6" r="3"></circle>
+            <circle cx="6" cy="18" r="3"></circle>
+            <circle cx="18" cy="18" r="3"></circle>
+            <line x1="12" y1="9" x2="6" y2="15"></line>
+            <line x1="12" y1="9" x2="18" y2="15"></line>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">AI / LLM</div>
+        <div class="spectrum-card-desc">AI 모델, LLM, RAG, AI Agent 공격 분석</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">Open Source</div>
+        <div class="spectrum-card-desc">오픈소스 라이브러리, 프레임워크, 플랫폼 취약점 연구</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="4 17 10 11 4 5"></polyline>
+            <line x1="12" y1="19" x2="20" y2="19"></line>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">Binary / Firmware</div>
+        <div class="spectrum-card-desc">바이너리 분석, 리버싱, 펌웨어 취약점 연구</div>
+      </div>
+      <div class="spectrum-card">
+        <div class="spectrum-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="9" y1="14" x2="15" y2="14"></line>
+            <line x1="9" y1="18" x2="13" y2="18"></line>
+          </svg>
+        </div>
+        <div class="spectrum-card-name">Source Code</div>
+        <div class="spectrum-card-desc">소스코드 정적·동적 분석 및 보안 검증</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑥ Global Capability -->
+<section class="section" id="capability">
+  <div class="wrap">
+    <div class="sec-eyebrow-wrap">
+      <span class="sec-eyebrow-pill">Global Capability</span>
+    </div>
+    <div class="sec-title center">글로벌 화이트해커 연구 역량</div>
+    <p class="sec-desc center">실전 공격자 관점에서 연구하는 조직의 핵심 역량입니다.</p>
+
+    <div class="capability-grid">
+      <div class="capability-card">
+        <div class="capability-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="7"></circle>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+          </svg>
+        </div>
+        <div class="capability-card-title">글로벌 해킹대회 실적</div>
+        <div class="capability-card-pills">
+          <span class="capability-pill">DEFCON</span>
+          <span class="capability-pill">CODEGATE</span>
+          <span class="capability-pill">Google CTF</span>
+        </div>
+        <div class="capability-card-desc">세계 최고 권위의 해킹·보안 대회에서 실력을 검증받았습니다.</div>
+      </div>
+
+      <div class="capability-card">
+        <div class="capability-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+          </svg>
+        </div>
+        <div class="capability-card-title">연간 상위 연구자 및 명예의 전당 등재</div>
+        <div class="capability-card-pills">
+          <span class="capability-pill">Microsoft Top 100</span>
+          <span class="capability-pill">KISA 명예의 전당</span>
+        </div>
+        <div class="capability-card-desc">CVSS(위험도) critical, high 등급 이상의 CVE 다수 발급과 함께 연구 역량을 인정받았습니다.</div>
+      </div>
+
+      <div class="capability-card">
+        <div class="capability-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <div class="capability-card-title">취약점 연구 및 제보</div>
+        <div class="capability-card-pills">
+          <span class="capability-pill">Pwn2Own</span>
+          <span class="capability-pill">Microsoft</span>
+          <span class="capability-pill">Apache</span>
+          <span class="capability-pill">NASA</span>
+          <span class="capability-pill">Google</span>
+          <span class="capability-pill">Synology</span>
+        </div>
+        <div class="capability-card-desc">세계 최대 취약점 제보 대회에서 수상하며, 글로벌 벤더사를 대상으로 다수의 제로데이 취약점을 제보했습니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑦ 국가적 프로젝트 강조 -->
+<section class="section" id="projects">
+  <div class="wrap">
+    <div class="national-block">
+      <div class="national-eyebrow">Numerous High-Profile Confidential Projects</div>
+      <div class="national-headline">기밀 유지가 필수적인 국가적 프로젝트를 수행해 왔습니다</div>
+      <p class="national-desc">글로벌 화이트해커 연구 역량을 바탕으로, 스틸리언 Cyber R&amp;D 조직은 <strong>국방·검찰·경찰</strong> 등 국가 전략 기관과 함께 고난도 보안 난제를 해결해 왔습니다.</p>
+
+      <div class="national-stat-row">
+        <div class="national-stat-val">60% 이상</div>
+        <div class="national-stat-text">전체 인력의 <strong>60% 이상</strong>이 해킹 및 보안 기술 전문 연구원으로 구성되어 있으며,<br>공격 관점의 연구 역량을 기반으로 실전형 보안 기술을 고도화하고 있습니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑧ Partnership CTA -->
+<section class="cta-section" id="cta">
+  <div class="wrap">
+    <div class="cta-eyebrow-wrap">
+      <span class="cta-eyebrow">Partnership</span>
+    </div>
+    <h2>Cyber R&amp;D Partnership</h2>
+    <p>AI·모바일·임베디드 환경의 고도화된 위협에 함께 대응합니다.</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-cta">문의하기</a>
+      <a href="#" class="btn-cta-outline">자료 요청</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg class="footer-logo-mark" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="6" fill="#5B3FBF" opacity="0.12"/>
+            <path d="M8 14c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6" stroke="#5B3FBF" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="14" cy="14" r="2.5" fill="#5B3FBF"/>
+          </svg>
+          <span class="footer-logo-name">STEALIEN</span>
+        </div>
+        <p class="footer-brand-desc">첨단 기술을 안전하게 제공하는<br>사이버 보안 전문 기업</p>
+        <div class="footer-sns">
+          <div class="footer-sns-icon">f</div>
+          <div class="footer-sns-icon">𝕏</div>
+          <div class="footer-sns-icon">▶</div>
+          <div class="footer-sns-icon">▤</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>제품</h5>
+        <a>AppSuit Premium</a>
+        <a>AppSuit Keypad</a>
+        <a>AppSuit AV</a>
+        <a>AppSuit RemoteBlock</a>
+        <a>전체 제품 보기</a>
+      </div>
+      <div class="footer-col">
+        <h5>서비스</h5>
+        <a>모의침투테스트 / 레드팀</a>
+        <a>보안 컨설팅</a>
+        <a>AI RedTeaming</a>
+        <a>AI해커 기반 모의해킹</a>
+        <a style="color:var(--teal);font-weight:500;">Cyber R&amp;D</a>
+        <h5 style="margin-top:20px;">회사</h5>
+        <a>회사 소개</a>
+        <a>인증 및 수상</a>
+        <a>뉴스·보도자료</a>
+        <a>채용</a>
+      </div>
+      <div class="footer-contact">
+        <h5>연락처</h5>
+        <div class="footer-contact-group">
+          <div class="footer-contact-label">영업 문의</div>
+          <div class="footer-contact-tel">02-2088-4834</div>
+          <div class="footer-contact-email">sales@stealien.com</div>
+        </div>
+        <div class="footer-contact-group">
+          <div class="footer-contact-label">기술 지원</div>
+          <div class="footer-contact-tel">02-2088-4835</div>
+          <div class="footer-contact-email">se@stealien.com</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">COPYRIGHT © 2026 STEALIEN Inc. ALL RIGHTS RESERVED.</span>
+      <div class="footer-bottom-links">
+        <a>개인정보처리방침</a>
+        <a>이용약관</a>
+        <a>사이트맵</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

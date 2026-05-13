@@ -1,0 +1,1454 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cyber Drill System — 실전형 보안 교육·훈련 플랫폼 | STEALIEN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  --ink:        #0A1A14;
+  --ink-mid:    #2C4A3E;
+  --ink-mute:   #6B8C80;
+  --teal:       #1D9E75;
+  --teal-hi:    #25C490;
+  --teal-pale:  #E6F7F0;
+  --teal-dark:  #041A14;
+  --border:     rgba(29,158,117,0.12);
+  --border-mid: rgba(29,158,117,0.22);
+  --white:      #FFFFFF;
+  --font-main:  'DM Sans', sans-serif;
+  --font-mono:  'DM Mono', monospace;
+}
+
+/* RESET & BASE */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-main);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* LAYOUT */
+.wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
+
+/* NAV */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(4,26,20,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(29,158,117,0.15);
+}
+.nav-inner {
+  max-width: 1020px; margin: 0 auto; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-brand-logo {
+  width: 28px; height: 28px;
+  background: var(--teal);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-brand-logo svg { width: 16px; height: 16px; }
+.nav-brand-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); letter-spacing: 0.03em; }
+.nav-brand-name span { color: var(--teal-hi); }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { font-size: 12px; color: rgba(255,255,255,0.45); transition: color .15s; }
+.nav-links a:hover { color: rgba(255,255,255,0.8); }
+.nav-cta {
+  background: var(--teal); color: var(--white);
+  font-size: 12px; font-weight: 500;
+  padding: 7px 18px; border-radius: 5px;
+  transition: background .15s;
+}
+.nav-cta:hover { background: var(--teal-hi); }
+
+/* SECTION FRAME */
+.section { padding: 28px 0; }
+.sec-title {
+  font-size: 30px; font-weight: 500;
+  color: var(--ink); line-height: 1.25;
+  margin-bottom: 6px;
+}
+.sec-desc {
+  font-size: 14px; color: var(--ink-mute);
+  line-height: 1.75; max-width: 780px;
+  margin-bottom: 16px;
+}
+.sec-title.center { text-align: center; }
+.sec-desc.center { text-align: center; max-width: none; margin-left: auto; margin-right: auto; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ① HERO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
+  background: var(--teal-dark);
+  padding: 72px 0 56px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; right: -120px; top: -120px;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,158,117,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { display: grid; grid-template-columns: 1fr 380px; gap: 60px; align-items: center; }
+.hero-service-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px; color: var(--teal-hi);
+  letter-spacing: 0.08em; margin-bottom: 18px;
+}
+.hero-service-tag-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+.hero h1 {
+  font-size: 30px; font-weight: 500; color: var(--white);
+  line-height: 1.3; margin-bottom: 18px; letter-spacing: -0.01em;
+}
+.hero h1 em { color: var(--teal-hi); font-style: normal; }
+.hero-sub {
+  font-size: 15px; color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+}
+.hero-tab-bar {
+  margin-top: 40px; padding: 6px 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  display: flex; gap: 2px; flex-wrap: wrap; align-items: center;
+  justify-content: space-between;
+}
+.hero-tab {
+  font-size: 12px; color: rgba(255,255,255,0.55);
+  padding: 8px 18px; border-radius: 999px;
+  cursor: pointer; text-decoration: none;
+  transition: color .15s, background .15s;
+  font-weight: 500;
+  flex: 1; text-align: center; min-width: 0;
+  white-space: nowrap;
+}
+.hero-tab:hover { color: rgba(255,255,255,0.9); }
+.hero-tab.active {
+  background: var(--teal-hi);
+  color: var(--white);
+  font-weight: 600;
+}
+.hero-graphic { position: relative; height: 280px; }
+.hero-graphic svg { width: 100%; height: 100%; }
+
+/* feature pills */
+.feature-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+.feature-pill {
+  font-size: 12px;
+  color: var(--ink-mid);
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 7px 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  font-family: var(--font-main);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ② 서비스 정의 및 핵심 가치
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.intro-text {
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.85;
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto 18px;
+}
+.intro-text-followup {
+  font-size: 14px;
+  color: var(--ink-mute);
+  margin-bottom: 40px;
+  max-width: 820px;
+}
+.intro-text strong {
+  color: var(--teal);
+  font-weight: 500;
+}
+
+/* Pain Points — 6 카드 + 푸터 메시지 */
+.pain-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+}
+.pain-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 22px 26px;
+  display: flex; flex-direction: column;
+}
+.pain-card-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.06em;
+  margin-bottom: 10px;
+}
+.pain-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 10px;
+}
+.pain-card-desc {
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+}
+.pain-foot {
+  margin-top: 32px;
+  padding: 24px 28px;
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 12px;
+  display: flex; flex-direction: column;
+  gap: 8px;
+  text-align: center;
+}
+.pain-foot p {
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.75;
+}
+.pain-foot strong {
+  color: var(--teal);
+  font-weight: 600;
+}
+.value-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+}
+.value-card {
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  border-radius: 12px;
+  padding: 26px 24px;
+  position: relative;
+}
+.value-card-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--teal-pale); color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+}
+.value-card-icon svg { width: 20px; height: 20px; }
+.value-card-name {
+  font-size: 15px; font-weight: 500; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.35;
+}
+.value-card-desc {
+  font-size: 12px; color: var(--ink-mute);
+  line-height: 1.7;
+}
+/* AI 레드티밍 강조 카드 (연보라) */
+.value-card.value-card-purple {
+  background: #F4F1FB;
+  border: 1px solid #C9BCEA;
+}
+.value-card.value-card-purple .value-card-icon {
+  background: #E5DDF6;
+  color: #7B5FBF;
+}
+.value-card.value-card-purple .value-card-name {
+  color: #3E2F73;
+}
+.value-card.value-card-purple .value-card-desc {
+  color: #5B4A8F;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ③ Service — 맞춤형 교육·훈련 서비스 (4 카드)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 28px;
+}
+.service-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 20px 24px;
+  display: flex; flex-direction: column;
+  gap: 8px;
+}
+.service-card-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.service-card-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+.service-card-desc {
+  font-size: 12px;
+  color: var(--ink-mute);
+  line-height: 1.65;
+  margin-bottom: 4px;
+}
+.service-card-tags {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: auto;
+  padding-top: 8px;
+}
+.service-card-tag {
+  font-size: 10px;
+  color: var(--teal);
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  padding: 3px 9px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.02em;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ④ Platform — Cyber Drill · Cyber Range (4 카드)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.platform-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+}
+.platform-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 26px 26px 28px;
+  display: flex; flex-direction: column;
+}
+.platform-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.platform-card-icon svg { width: 22px; height: 22px; }
+.platform-card-tag {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.platform-card-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+.platform-card-desc {
+  font-size: 13px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑤ Use Cases — CTF·대회 / 기업 교육 2 박스
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.usecase-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.usecase-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 28px 30px 30px;
+  display: flex; flex-direction: column;
+}
+.usecase-card-head {
+  display: flex; align-items: flex-start; gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.usecase-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  background: var(--teal);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.usecase-card-icon svg { width: 22px; height: 22px; }
+.usecase-card-title {
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 3px;
+}
+.usecase-card-sub {
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  line-height: 1.55;
+}
+.usecase-block {
+  margin-bottom: 18px;
+}
+.usecase-block-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.usecase-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+  gap: 6px;
+}
+.usecase-list li {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.55;
+  padding-left: 14px;
+  position: relative;
+}
+.usecase-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+.usecase-list-compact li {
+  font-size: 12px;
+}
+.usecase-foot {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid var(--border);
+}
+.usecase-foot-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-mute);
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.usecase-foot-rows {
+  display: flex; flex-direction: column;
+  gap: 8px;
+}
+.usecase-foot-row {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 14px;
+  align-items: baseline;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+.usecase-foot-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+.usecase-foot-desc {
+  color: var(--ink-mute);
+}
+.usecase-enterprise {
+  background: rgba(29,158,117,0.04);
+  border-radius: 8px;
+  padding: 14px 16px 16px;
+}
+.usecase-enterprise-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑥ Features — 플랫폼 주요 기능 (3 카드)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+}
+.feature-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 26px 26px 28px;
+  display: flex; flex-direction: column;
+}
+.feature-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 14px;
+}
+.feature-card-icon svg { width: 22px; height: 22px; }
+.feature-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+.feature-card-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+  gap: 8px;
+}
+.feature-card-list li {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.6;
+  padding-left: 14px;
+  position: relative;
+}
+.feature-card-list li::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑦ Curriculum — 6 영역 카드
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.curr-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+}
+.curr-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 24px 26px;
+  display: flex; flex-direction: column;
+}
+.curr-card-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+.curr-card-desc {
+  font-size: 13px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+.curr-card-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  padding: 4px 10px;
+  letter-spacing: 0.04em;
+  margin-top: auto;
+  align-self: flex-start;
+}
+.curr-card-tags {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: auto;
+}
+.curr-card-tags .curr-card-tag { margin-top: 0; }
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑧ Infrastructure — 4 배포 방식
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.infra-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 28px;
+}
+.infra-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 22px 24px;
+  display: flex; flex-direction: column;
+}
+.infra-card-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+.infra-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.infra-card-desc {
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑨ References — 3 카테고리 박스
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.ref-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 28px;
+}
+.ref-cat-block {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 24px 26px;
+  display: flex; flex-direction: column;
+}
+.ref-cat-head {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+.ref-cat-items {
+  display: flex; flex-direction: column;
+  gap: 16px;
+}
+.ref-cat-item {
+  display: flex; flex-direction: column;
+  gap: 4px;
+}
+.ref-cat-item-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.ref-cat-item-tag {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--teal);
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  padding: 3px 8px;
+  letter-spacing: 0.08em;
+  align-self: flex-start;
+  margin-bottom: 4px;
+}
+.ref-cat-item-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.4;
+}
+.ref-cat-item-desc {
+  font-size: 12px;
+  color: var(--ink-mute);
+  line-height: 1.65;
+}
+.ref-cat-item-pills {
+  display: flex; flex-wrap: wrap; gap: 5px;
+  margin-top: 10px;
+}
+.ref-cat-item-pill {
+  font-size: 10px;
+  color: var(--teal);
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 3px 10px;
+  font-family: var(--font-mono);
+}
+
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑩ CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.cta-section {
+  background: var(--teal-pale); padding: 56px 0; text-align: center;
+  border-top: 1px solid var(--border-mid);
+}
+.cta-section h2 { font-size: 28px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+.cta-section p { font-size: 14px; color: var(--ink-mid); margin-bottom: 28px; line-height: 1.75; }
+.cta-btns { display: flex; justify-content: center; gap: 12px; }
+.btn-cta { background: var(--teal); color: var(--white); font-size: 13px; font-weight: 500; padding: 12px 28px; border-radius: 6px; transition: background .15s; }
+.btn-cta:hover { background: var(--teal-hi); }
+.btn-cta-outline { border: 1px solid var(--border-mid); color: var(--ink-mid); font-size: 13px; padding: 12px 28px; border-radius: 6px; transition: border-color .15s, color .15s; background: var(--white); }
+.btn-cta-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+/* FOOTER */
+.footer { background: #F7F8F7; padding: 48px 0 0; border-top: 1px solid #E4E9E6; }
+.footer-inner { display: grid; grid-template-columns: 220px 160px 160px 260px; gap: 0; margin-bottom: 0; }
+.footer-brand { padding-right: 40px; }
+.footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.footer-logo-mark { width: 28px; height: 28px; }
+.footer-logo-name { font-size: 15px; font-weight: 700; color: #5B3FBF; letter-spacing: 0.02em; }
+.footer-brand-desc { font-size: 12px; color: #6B7C74; line-height: 1.7; margin-bottom: 18px; }
+.footer-sns { display: flex; gap: 8px; }
+.footer-sns-icon { width: 30px; height: 30px; border-radius: 4px; border: 1px solid #D8DDD9; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #5B7068; cursor: pointer; }
+.footer-col { padding: 0 20px; }
+.footer-col h5 { font-size: 13px; font-weight: 600; color: #1A2E26; margin-bottom: 14px; }
+.footer-col a { display: block; font-size: 13px; color: #5B7068; margin-bottom: 10px; cursor: pointer; }
+.footer-col a:hover { color: var(--teal); }
+.footer-contact { padding-left: 20px; }
+.footer-contact h5 { font-size: 13px; font-weight: 600; color: #1A2E26; margin-bottom: 14px; }
+.footer-contact-group { margin-bottom: 14px; }
+.footer-contact-label { font-size: 12px; font-weight: 600; color: #1A2E26; margin-bottom: 3px; }
+.footer-contact-tel { font-size: 12px; color: #5B7068; margin-bottom: 2px; }
+.footer-contact-email { font-size: 12px; color: var(--teal); }
+.footer-bottom { border-top: 1px solid #D8DDD9; margin-top: 36px; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; }
+.footer-copyright { font-size: 11px; color: #8FA89C; }
+.footer-bottom-links { display: flex; gap: 16px; }
+.footer-bottom-links a { font-size: 11px; color: #5B7068; cursor: pointer; }
+.footer-bottom-links a:hover { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <div class="nav-brand-logo">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 5v4c0 3 2.5 5.2 6 6 3.5-.8 6-3 6-6V5L8 2z" fill="white" opacity=".9"/></svg>
+      </div>
+      <span class="nav-brand-name">STEALIEN <span>Cyber Drill System</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#value">Pain Points</a>
+      <a href="#service">Service</a>
+      <a href="#platform">Platform</a>
+      <a href="#usecases">Use Cases</a>
+      <a href="#features">Features</a>
+      <a href="#curriculum">Curriculum</a>
+      <a href="#infra">Infrastructure</a>
+      <a href="#ref">References</a>
+    </div>
+    <a href="#cta" class="nav-cta">도입 문의</a>
+  </div>
+</nav>
+
+<!-- ① HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-service-tag">
+          <div class="hero-service-tag-dot"></div>
+          Cyber Drill System
+        </div>
+        <h1>실전과 동일한 환경 기반,<br><em>맞춤형 보안 교육·훈련</em></h1>
+        <p class="hero-sub">고객 환경과 목적에 맞춰 설계되는 실전형 교육·훈련 서비스와<br>실제 운영 가능한 Cyber Drill · Cyber Range 플랫폼을 함께 제공합니다.</p>
+      </div>
+      <div class="hero-graphic">
+        <svg viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- 좌측: 학습자/팀 -->
+          <g>
+            <rect x="22" y="100" width="60" height="90" rx="8" fill="rgba(123,95,191,0.08)" stroke="rgba(123,95,191,0.4)" stroke-width="0.8"/>
+            <!-- 3명의 학습자 아이콘 (사람 모양 단순화) -->
+            <circle cx="40" cy="123" r="4.5" fill="rgba(123,95,191,0.6)"/>
+            <path d="M 32 138 Q 40 130 48 138 L 48 148 L 32 148 Z" fill="rgba(123,95,191,0.4)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <circle cx="64" cy="123" r="4.5" fill="rgba(123,95,191,0.6)"/>
+            <path d="M 56 138 Q 64 130 72 138 L 72 148 L 56 148 Z" fill="rgba(123,95,191,0.4)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <circle cx="52" cy="158" r="4.5" fill="rgba(123,95,191,0.6)"/>
+            <path d="M 44 173 Q 52 165 60 173 L 60 178 L 44 178 Z" fill="rgba(123,95,191,0.4)" stroke="rgba(123,95,191,0.6)" stroke-width="0.5"/>
+            <text x="52" y="188" text-anchor="middle" font-size="6" fill="#7B5FBF" font-family="DM Mono" letter-spacing="0.05em">TRAINEES</text>
+          </g>
+
+          <!-- 좌→중앙 -->
+          <line x1="82" y1="140" x2="125" y2="140" stroke="#7B5FBF" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.6"/>
+          <circle r="2" fill="#7B5FBF">
+            <animateMotion dur="2s" repeatCount="indefinite" path="M 84 140 L 124 140"/>
+            <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- 중앙: Cyber Range 가상환경 (방패 + 노드 매트릭스) -->
+          <g>
+            <path d="M170 88 L138 100 L138 138 Q138 168 170 184 Q202 168 202 138 L202 100 Z"
+                  fill="rgba(37,196,144,0.20)" stroke="#25C490" stroke-width="1.4"/>
+            <!-- 4x3 노드 매트릭스 (가상 환경) -->
+            <circle cx="150" cy="118" r="2" fill="#25C490" opacity="0.85"/>
+            <circle cx="165" cy="118" r="2" fill="#25C490" opacity="0.7"/>
+            <circle cx="180" cy="118" r="2" fill="#25C490" opacity="0.85"/>
+            <circle cx="150" cy="135" r="2" fill="#25C490" opacity="0.7"/>
+            <circle cx="165" cy="135" r="2.5" fill="#25C490" opacity="0.95"/>
+            <circle cx="180" cy="135" r="2" fill="#25C490" opacity="0.7"/>
+            <circle cx="150" cy="152" r="2" fill="#25C490" opacity="0.85"/>
+            <circle cx="165" cy="152" r="2" fill="#25C490" opacity="0.7"/>
+            <circle cx="180" cy="152" r="2" fill="#25C490" opacity="0.85"/>
+            <!-- 노드 연결선 (가상망) -->
+            <line x1="150" y1="118" x2="180" y2="118" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <line x1="150" y1="135" x2="180" y2="135" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <line x1="150" y1="152" x2="180" y2="152" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <line x1="150" y1="118" x2="150" y2="152" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <line x1="165" y1="118" x2="165" y2="152" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <line x1="180" y1="118" x2="180" y2="152" stroke="#25C490" stroke-width="0.4" opacity="0.4"/>
+            <!-- CTF 깃발 (중앙 강조) -->
+            <line x1="165" y1="135" x2="165" y2="128" stroke="#25C490" stroke-width="0.8"/>
+            <path d="M 165 128 L 173 130 L 165 132 Z" fill="#25C490"/>
+            <text x="170" y="178" text-anchor="middle" font-size="8" fill="#5DCAA5" font-family="DM Mono" letter-spacing="0.05em">CYBER RANGE</text>
+            <!-- 펄스 -->
+            <circle cx="170" cy="138" r="60" fill="none" stroke="#25C490" stroke-width="0.5" opacity="0.4">
+              <animate attributeName="r" values="60;72;60" dur="2.4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.4;0;0.4" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+
+          <!-- 중앙→우측 -->
+          <line x1="202" y1="140" x2="258" y2="140" stroke="rgba(37,196,144,0.5)" stroke-width="0.7" stroke-dasharray="3 3"/>
+          <circle r="2" fill="#25C490">
+            <animateMotion dur="1.6s" repeatCount="indefinite" path="M 204 140 L 256 140"/>
+          </circle>
+
+          <!-- 우측: 강화된 방어 역량 -->
+          <g>
+            <rect x="258" y="100" width="60" height="90" rx="8" fill="rgba(29,158,117,0.10)" stroke="#25C490" stroke-width="1"/>
+            <!-- 스킬 체크 항목들 -->
+            <rect x="266" y="110" width="44" height="14" rx="2" fill="rgba(29,158,117,0.18)" stroke="#25C490" stroke-width="0.5"/>
+            <circle cx="272" cy="117" r="2.5" fill="#25C490"/>
+            <text x="278" y="120" font-size="6" fill="#25C490" font-family="DM Mono">WEB</text>
+            <rect x="266" y="128" width="44" height="14" rx="2" fill="rgba(29,158,117,0.18)" stroke="#25C490" stroke-width="0.5"/>
+            <circle cx="272" cy="135" r="2.5" fill="#25C490"/>
+            <text x="278" y="138" font-size="6" fill="#25C490" font-family="DM Mono">BINARY</text>
+            <rect x="266" y="146" width="44" height="14" rx="2" fill="rgba(29,158,117,0.18)" stroke="#25C490" stroke-width="0.5"/>
+            <circle cx="272" cy="153" r="2.5" fill="#25C490"/>
+            <text x="278" y="156" font-size="6" fill="#25C490" font-family="DM Mono">IoT/ICS</text>
+            <!-- LIVE-FIRE 배지 -->
+            <rect x="266" y="165" width="44" height="14" rx="2" fill="rgba(29,158,117,0.25)" stroke="#25C490" stroke-width="0.6"/>
+            <text x="288" y="174" text-anchor="middle" font-size="6" fill="#25C490" font-family="DM Mono" font-weight="600">LIVE-FIRE</text>
+          </g>
+
+          <!-- 상단 라벨 -->
+          <text x="170" y="36" text-anchor="middle" font-size="10" fill="#5DCAA5" font-family="DM Mono" letter-spacing="0.1em">TRAIN · DRILL · DEFEND</text>
+          <!-- 하단 라벨 -->
+          <rect x="92" y="218" width="156" height="22" rx="5" fill="rgba(29,158,117,0.12)" stroke="rgba(29,158,117,0.3)" stroke-width="0.8"/>
+          <text x="170" y="232" text-anchor="middle" font-size="9" fill="#5DCAA5" font-family="DM Mono">실전 TTP 기반 훈련</text>
+        </svg>
+      </div>
+    </div>
+    <!-- Hero 탭 바 (컨설팅 4종) -->
+  </div>
+</section>
+
+<!-- ② Pain Points — 기존 보안 교육·훈련의 한계 -->
+<section class="section" id="value">
+  <div class="wrap">
+    <div class="feature-pills">
+      <span class="feature-pill">실전 TTP 기반</span>
+      <span class="feature-pill">맞춤형 커리큘럼</span>
+      <span class="feature-pill">대규모 가상환경</span>
+      <span class="feature-pill">Live-Fire · CTF</span>
+      <span class="feature-pill">국제 운영 경험</span>
+    </div>
+    <div class="sec-title center" style="margin-bottom:20px">해킹은 24시간 진화하는데 ─ 교육은 아직 정해진 시나리오에 머물러 있습니다</div>
+    <p class="intro-text">끊임없이 진화하는 공격 환경에서 온라인 강의만으로는 실무 대응 역량 강화에 한계가 있습니다.<br>실전과 분리된 획일적 교육 환경에서는 실제 공격 흐름과 대응 과정을 충분히 체득하기 어렵고,<br>CTF·실습 훈련 역시 인프라와 문제 구성, 운영 부담으로 인해 지속적인 고도화가 쉽지 않습니다.</p>
+
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-card-num">01</div>
+        <div class="pain-card-title">정적인 콘텐츠</div>
+        <div class="pain-card-desc">변화하는 위협에 유연하게 대응하지 못하는 고정형 교육·대회 콘텐츠로 참여자 몰입도와 실전 역량 향상에 한계</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card-num">02</div>
+        <div class="pain-card-title">실전과 괴리된 환경</div>
+        <div class="pain-card-desc">이론 중심 교육과 단순 시뮬레이션으로 실제 공격·방어 상황에서의 대응 능력 강화에 한계</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card-num">03</div>
+        <div class="pain-card-title">운영 인프라 구축 부담</div>
+        <div class="pain-card-desc">훈련 및 CTF 대회용 가상환경 구축·유지보수에 따른 높은 초기 비용과 전문 인력 리소스</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card-num">04</div>
+        <div class="pain-card-title">문제 제작 및 관리 비용</div>
+        <div class="pain-card-desc">실전형 문제 시나리오 개발과 지속적인 업데이트, 대회별 맞춤 문제 수급에 따른 운영 부담 증가</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card-num">05</div>
+        <div class="pain-card-title">최신 공격 시나리오 반영 어려움</div>
+        <div class="pain-card-desc">신규 APT, 랜섬웨어 변종 등 최신 위협을 교육·훈련 및 대회에 즉각 반영하기 어려움</div>
+      </div>
+      <div class="pain-card">
+        <div class="pain-card-num">06</div>
+        <div class="pain-card-title">대회 운영 및 관리 부담</div>
+        <div class="pain-card-desc">CTF 및 해킹대회의 인프라 운영, 참여자·팀 관리, 실시간 랭킹·채점 시스템 구축에 높은 리소스 필요</div>
+      </div>
+    </div>
+
+    <div class="pain-foot">
+      <p>자체 플랫폼 구축·운영·문제 수급까지 모두 직접 수행하기에는 <strong>높은 비용과 운영 리소스</strong>가 필요합니다.</p>
+      <p>실전 공격 연구 역량 + 교육·대회 운영 경험 + 플랫폼 기술력을 모두 갖춘 <strong>파트너</strong>가 필요합니다.</p>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ③ Service — 맞춤형 교육·훈련 서비스 -->
+<section class="section" id="service">
+  <div class="wrap">
+    <div class="sec-title center">맞춤형 교육·훈련 서비스</div>
+    <p class="sec-desc center">조직의 환경과 목적에 맞춰 설계되는 실전형 교육·훈련 서비스입니다.<br>고정형 교육이 아닌, 운영 가능한 맞춤 훈련 체계를 구축합니다.</p>
+
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="service-card-num">01</div>
+        <div class="service-card-title">고객 수준별 맞춤 커리큘럼</div>
+        <div class="service-card-desc">입문자부터 전문가까지, 조직의 보안 성숙도와 역량 수준에 맞춰 커리큘럼을 단계별로 설계합니다.</div>
+        <div class="service-card-tags">
+          <span class="service-card-tag">입문 → 중급 → 고급</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-num">02</div>
+        <div class="service-card-title">기업·공공·교육기관별 시나리오</div>
+        <div class="service-card-desc">기업 내부 보안팀, 공공기관, 대학 및 연구소 등 고객 유형별 최적의 훈련 시나리오를 제공합니다.</div>
+        <div class="service-card-tags">
+          <span class="service-card-tag">기업</span>
+          <span class="service-card-tag">공공</span>
+          <span class="service-card-tag">교육</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-num">03</div>
+        <div class="service-card-title">실전 공격 기반 훈련</div>
+        <div class="service-card-desc">실제 사이버 공격 사례와 0-day 취약점을 기반으로 한 실전형 훈련 시나리오를 제공합니다.</div>
+        <div class="service-card-tags">
+          <span class="service-card-tag">0-day 기반</span>
+          <span class="service-card-tag">실제 TTP</span>
+        </div>
+      </div>
+      <div class="service-card">
+        <div class="service-card-num">04</div>
+        <div class="service-card-title">Live-Fire / CTF / 실습형 훈련</div>
+        <div class="service-card-desc">단방향 학습형부터 양방향 실시간 공방전, CTF 대회 형식까지 다양한 훈련 모드를 지원합니다.</div>
+        <div class="service-card-tags">
+          <span class="service-card-tag">Live-Fire</span>
+          <span class="service-card-tag">CTF</span>
+          <span class="service-card-tag">실습</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ④ Platform — Cyber Drill · Cyber Range -->
+<section class="section" id="platform">
+  <div class="wrap">
+    <div class="sec-title center">실전형 맞춤 교육을 위한<br>Cyber Drill · Cyber Range 플랫폼</div>
+    <p class="sec-desc center">고객 환경과 훈련 목적에 맞춰 대규모 가상환경, 실전 TTP 시나리오, 실시간 운영·모니터링까지<br>통합 제공하는 교육·훈련 플랫폼입니다.</p>
+
+    <div class="platform-grid">
+      <div class="platform-card">
+        <div class="platform-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </div>
+        <div class="platform-card-tag">대규모 가상환경</div>
+        <div class="platform-card-title">Large Scale Virtual Environment</div>
+        <div class="platform-card-desc">실제와 유사한 수준의 대규모 가상환경을 제공하여 현장감 있는 실습 환경을 지원합니다.</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <circle cx="12" cy="12" r="6"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+          </svg>
+        </div>
+        <div class="platform-card-tag">실제 TTP 기반</div>
+        <div class="platform-card-title">Implementing Real-world Adversary TTP</div>
+        <div class="platform-card-desc">실제 공격 사례 기반 TTP 시나리오를 구현하며, 고객 맞춤형 시나리오 설계가 가능합니다.</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <polyline points="1 20 1 14 7 14"></polyline>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+          </svg>
+        </div>
+        <div class="platform-card-tag">동적 환경 구성</div>
+        <div class="platform-card-title">Dynamic Virtual Space Provisioning</div>
+        <div class="platform-card-desc">동적 가상환경 구성으로 실시간 복제 및 배포를 지원하여 유연한 훈련 운영이 가능합니다.</div>
+      </div>
+      <div class="platform-card">
+        <div class="platform-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+          </svg>
+        </div>
+        <div class="platform-card-tag">실시간 모니터링</div>
+        <div class="platform-card-title">Realtime Monitoring</div>
+        <div class="platform-card-desc">실시간 학습·훈련 현황 모니터링으로 즉각적인 피드백과 기술 지원이 가능합니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑤ Use Cases — 활용 사례 2 박스 -->
+<section class="section" id="usecases">
+  <div class="wrap">
+    <div class="sec-title center">누가 어떻게 활용하고 있는가</div>
+    <p class="sec-desc center">단순 기능 설명이 아닌, 실제 도입 사례를 통해 Cyber Drill · Cyber Range 플랫폼의 활용 가치를 확인하세요.</p>
+
+    <div class="usecase-grid">
+      <!-- CTF / 대회 운영 -->
+      <div class="usecase-card">
+        <div class="usecase-card-head">
+          <div class="usecase-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="8" r="7"></circle>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+          </div>
+          <div>
+            <div class="usecase-card-title">CTF / 대회 운영 활용</div>
+            <div class="usecase-card-sub">국제·공공 규모의 사이버보안 대회 운영 인프라로 활용</div>
+          </div>
+        </div>
+
+        <div class="usecase-block">
+          <div class="usecase-block-label">포함 내용</div>
+          <ul class="usecase-list">
+            <li>Web / System / Binary 문제 세트 구성</li>
+            <li>Jeopardy / Attack-Defense 모드 지원</li>
+            <li>안정적인 대회 인프라 운영</li>
+            <li>맞춤형 문제 제작 및 시나리오 설계</li>
+          </ul>
+        </div>
+
+        <div class="usecase-block">
+          <div class="usecase-block-label">기대 효과</div>
+          <ul class="usecase-list">
+            <li>실전형 문제 퀄리티 강화</li>
+            <li>운영 리소스 절감</li>
+            <li>참가자 몰입도 향상</li>
+            <li>차별화된 대회 브랜드 구축</li>
+          </ul>
+        </div>
+
+        <div class="usecase-foot">
+          <div class="usecase-foot-label">실제 국제·공공 프로젝트 운영 경험</div>
+          <div class="usecase-foot-rows">
+            <div class="usecase-foot-row"><span class="usecase-foot-name">KISA · ASEAN 10개국</span><span class="usecase-foot-desc">ACS 사업 3년 연속 CTF·EDU 운영</span></div>
+            <div class="usecase-foot-row"><span class="usecase-foot-name">KOICA</span><span class="usecase-foot-desc">인도네시아 사이버보안 전문인력양성</span></div>
+            <div class="usecase-foot-row"><span class="usecase-foot-name">국가·공공기관</span><span class="usecase-foot-desc">정보보안 대회 운영 및 출제</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 기업 교육·훈련 -->
+      <div class="usecase-card">
+        <div class="usecase-card-head">
+          <div class="usecase-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h18"></path>
+              <path d="M5 21V10l7-5 7 5v11"></path>
+              <path d="M9 21v-6h6v6"></path>
+            </svg>
+          </div>
+          <div>
+            <div class="usecase-card-title">기업 교육·훈련 활용</div>
+            <div class="usecase-card-sub">사내 보안 인력의 실전 대응 역량 강화를 위한 훈련 플랫폼</div>
+          </div>
+        </div>
+
+        <div class="usecase-block">
+          <div class="usecase-block-label">포함 내용</div>
+          <ul class="usecase-list">
+            <li>사내 보안 인력 정기 훈련</li>
+            <li>신규 인력 온보딩 훈련</li>
+            <li>팀 단위 Live-Fire 훈련</li>
+            <li>최신 공격 기법 반복 훈련</li>
+          </ul>
+        </div>
+
+        <div class="usecase-block">
+          <div class="usecase-block-label">기대 효과</div>
+          <ul class="usecase-list">
+            <li>실전 대응 역량 강화</li>
+            <li>공격 체인 이해도 향상</li>
+            <li>팀 협업 대응 능력 강화</li>
+            <li>반복 가능한 훈련 환경 구축</li>
+          </ul>
+        </div>
+
+        <div class="usecase-foot">
+          <div class="usecase-foot-label">Enterprise Case</div>
+          <div class="usecase-enterprise">
+            <div class="usecase-enterprise-name">LG전자 — 사내 보안 역량 강화 플랫폼 활용</div>
+            <ul class="usecase-list usecase-list-compact">
+              <li>사내 보안 인력 실전 훈련 플랫폼 활용</li>
+              <li>반복 가능한 공격 대응 훈련 환경 구축</li>
+              <li>실습 중심 역량 강화 체계 운영</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑥ Features — 플랫폼 주요 기능 -->
+<section class="section" id="features">
+  <div class="wrap">
+    <div class="sec-title center">플랫폼 주요 기능</div>
+    <p class="sec-desc center">콘텐츠 관리부터 운영·환경 배포까지, 훈련 운영에 필요한 핵심 기능을 통합 제공합니다.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="9" y1="14" x2="15" y2="14"></line>
+            <line x1="9" y1="18" x2="13" y2="18"></line>
+          </svg>
+        </div>
+        <div class="feature-card-title">콘텐츠 개발 및 관리</div>
+        <ul class="feature-card-list">
+          <li>Web, Binary, Crypto, IoT 등 전 분야 시나리오</li>
+          <li>단방향 학습형 / 양방향 Live-Fire 공방전 콘텐츠</li>
+          <li>고객 맞춤 시나리오 R&amp;D 및 커스터마이징</li>
+        </ul>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <div class="feature-card-title">훈련 운영 관리</div>
+        <ul class="feature-card-list">
+          <li>CTF 대회 생성·관리, 실시간 랭킹 보드</li>
+          <li>팀 구성, 사용자 권한, 참여자 진도 확인</li>
+          <li>훈련 결과 저장 및 AI 기반 자동 분석</li>
+        </ul>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+            <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+            <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+          </svg>
+        </div>
+        <div class="feature-card-title">환경 구성 및 배포</div>
+        <ul class="feature-card-list">
+          <li>OpenStack 기반 대규모 가상환경 관리</li>
+          <li>동적 환경 구성 및 실시간 복제·배포</li>
+          <li>On-Premise / Cloud / Hybrid 지원</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑦ Curriculum — 실전 공격 연구 기반 -->
+<section class="section" id="curriculum">
+  <div class="wrap">
+    <div class="sec-title center">실전 공격 연구 기반 커리큘럼</div>
+    <p class="sec-desc center">스틸리언 화이트 해커들의 실제 공격 연구 경험이 담긴 커리큘럼으로<br>조직의 실제 위협 대응 역량을 체계적으로 강화합니다.</p>
+
+    <div class="curr-grid">
+      <div class="curr-card">
+        <div class="curr-card-name">Web 보안</div>
+        <div class="curr-card-desc">SQL Injection, XSS, CSRF, SSRF 등 웹 취약점 공격·방어 시나리오</div>
+        <span class="curr-card-tag">OWASP Top 10</span>
+      </div>
+      <div class="curr-card">
+        <div class="curr-card-name">Binary 보안</div>
+        <div class="curr-card-desc">Rev, Pwn 기반 바이너리 취약점 분석 및 익스플로잇 공격 시나리오</div>
+        <div class="curr-card-tags">
+          <span class="curr-card-tag">Reversing</span>
+          <span class="curr-card-tag">Pwnable</span>
+        </div>
+      </div>
+      <div class="curr-card">
+        <div class="curr-card-name">IoT / ICS 보안</div>
+        <div class="curr-card-desc">산업제어시스템·IoT 기기 취약점 발굴 및 프로토콜 분석 훈련</div>
+        <span class="curr-card-tag">OT/ICS 환경</span>
+      </div>
+      <div class="curr-card">
+        <div class="curr-card-name">Crypto</div>
+        <div class="curr-card-desc">암호화 알고리즘 분석, 취약한 암호 구현 공격, 암호 해독 심화 실습</div>
+        <span class="curr-card-tag">Cryptography</span>
+      </div>
+      <div class="curr-card">
+        <div class="curr-card-name">시스템 / 네트워크</div>
+        <div class="curr-card-desc">권한 상승, 피벗팅, 횡적 이동 등 인프라 공격 체인 시나리오</div>
+        <span class="curr-card-tag">Linux / Windows</span>
+      </div>
+      <div class="curr-card">
+        <div class="curr-card-name">CTF 실습</div>
+        <div class="curr-card-desc">팀 vs 팀 실시간 공방전(CTF). 내부 보안 역량을 대회 형식으로 검증</div>
+        <span class="curr-card-tag">Live-Fire</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ⑧ Infrastructure — 유연한 인프라 지원 -->
+<section class="section" id="infra">
+  <div class="wrap">
+    <div class="sec-title center">유연한 인프라 지원</div>
+    <p class="sec-desc center">고객 환경과 보안 정책에 맞춰 다양한 배포 방식을 지원합니다.<br>단순 SaaS가 아닌, 고객 환경 대응력을 우선으로 합니다.</p>
+
+    <div class="infra-grid">
+      <div class="infra-card">
+        <div class="infra-card-tag">Air-Gapped</div>
+        <div class="infra-card-name">완전 폐쇄망</div>
+        <div class="infra-card-desc">물리적·논리적 망 분리 환경에서의 독립 운영. 최고 수준의 보안 요구사항 충족.</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-card-tag">On-Premise</div>
+        <div class="infra-card-name">On-Premise</div>
+        <div class="infra-card-desc">고객사 내부 서버에 직접 설치하는 완전 독립 환경. 공공기관·금융기관의 보안 정책 100% 대응.</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-card-tag">Cloud</div>
+        <div class="infra-card-name">Cloud / SaaS</div>
+        <div class="infra-card-desc">별도 서버 구축 없이 스틸리언이 운영하는 클라우드로 즉시 시작. AWS, Azure, Private Cloud 지원.</div>
+      </div>
+      <div class="infra-card">
+        <div class="infra-card-tag">Private</div>
+        <div class="infra-card-name">Private Cloud</div>
+        <div class="infra-card-desc">고객 전용 클라우드 인프라에서 독립 운영. 클라우드의 유연성과 폐쇄망의 보안성을 동시에 확보.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ⑨ References — 도입 레퍼런스 -->
+<section class="section" id="ref">
+  <div class="wrap">
+    <div class="sec-title center">도입 레퍼런스</div>
+    <p class="sec-desc center">교육 플랫폼 도입, 국제 프로젝트, 대회 운영 경험이 함께 검증된 신뢰입니다.</p>
+
+    <div class="ref-cat-grid">
+      <!-- 글로벌 프로젝트 -->
+      <div class="ref-cat-block">
+        <div class="ref-cat-head">글로벌 프로젝트</div>
+        <div class="ref-cat-items">
+          <div class="ref-cat-item">
+            <div class="ref-cat-item-name">한국인터넷진흥원 (KISA)</div>
+            <div class="ref-cat-item-title">ACS CTF</div>
+            <div class="ref-cat-item-desc">아세안 10개국 참가 ACS CTF 3년 연속 운영</div>
+          </div>
+          <div class="ref-cat-item">
+            <div class="ref-cat-item-name">KOICA</div>
+            <div class="ref-cat-item-title">인도네시아 사이버보안 전문인력양성</div>
+            <div class="ref-cat-item-desc">국제 개발 협력을 통한 해외 사이버보안 인력양성 사업 수행</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 국가·공공기관 협력 -->
+      <div class="ref-cat-block">
+        <div class="ref-cat-head">국가·공공기관 협력</div>
+        <div class="ref-cat-items">
+          <div class="ref-cat-item">
+            <div class="ref-cat-item-title">KISA</div>
+            <div class="ref-cat-item-desc">정보보안 대회 운영 및 출제 협력</div>
+          </div>
+          <div class="ref-cat-item">
+            <div class="ref-cat-item-title">KERIS</div>
+            <div class="ref-cat-item-desc">교육정보화 연구 및 훈련 플랫폼 협력</div>
+          </div>
+          <div class="ref-cat-item">
+            <div class="ref-cat-item-title">국가·공공기관</div>
+            <div class="ref-cat-item-desc">정보보안 대회 운영 및 출제 경험 다수</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 기업 도입 사례 -->
+      <div class="ref-cat-block">
+        <div class="ref-cat-head">기업 도입 사례</div>
+        <div class="ref-cat-items">
+          <div class="ref-cat-item">
+            <div class="ref-cat-item-tag">Enterprise</div>
+            <div class="ref-cat-item-title">LG전자</div>
+            <div class="ref-cat-item-desc">사내 보안 인력의 실전 대응 역량 강화를 위한 Cyber Drill System 활용. 반복 가능한 공격 대응 훈련 환경을 구축하여 실습 중심의 역량 강화 체계를 운영하고 있습니다.</div>
+            <div class="ref-cat-item-pills">
+              <span class="ref-cat-item-pill">실전 훈련 플랫폼</span>
+              <span class="ref-cat-item-pill">반복 훈련 환경</span>
+              <span class="ref-cat-item-pill">역량 강화 체계</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ⑩ CTA -->
+<section class="cta-section" id="cta">
+  <div class="wrap">
+    <h2>실전형 보안 조직은 실전형 훈련에서 만들어집니다</h2>
+    <p>조직 환경에 최적화된 Cyber Drill System으로<br>운영 가능한 교육·훈련 체계를 구축하십시오.</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-cta">자료 요청</a>
+      <a href="#" class="btn-cta-outline">문의하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg class="footer-logo-mark" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="6" fill="#5B3FBF" opacity="0.12"/>
+            <path d="M8 14c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6" stroke="#5B3FBF" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="14" cy="14" r="2.5" fill="#5B3FBF"/>
+          </svg>
+          <span class="footer-logo-name">STEALIEN</span>
+        </div>
+        <p class="footer-brand-desc">첨단 기술을 안전하게 제공하는<br>사이버 보안 전문 기업</p>
+        <div class="footer-sns">
+          <div class="footer-sns-icon">f</div>
+          <div class="footer-sns-icon">𝕏</div>
+          <div class="footer-sns-icon">▶</div>
+          <div class="footer-sns-icon">▤</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>제품</h5>
+        <a>AppSuit Premium</a>
+        <a>AppSuit Keypad</a>
+        <a>AppSuit AV</a>
+        <a>AppSuit RemoteBlock</a>
+        <a>전체 제품 보기</a>
+      </div>
+      <div class="footer-col">
+        <h5>서비스</h5>
+        <a>모의침투테스트 / 레드팀</a>
+        <a>보안 컨설팅</a>
+        <a>AI RedTeaming</a>
+        <a>AI해커 기반 모의해킹</a>
+        <a>Cyber R&amp;D</a>
+        <a style="color:var(--teal);font-weight:500;">Cyber Drill System</a>
+        <h5 style="margin-top:20px;">회사</h5>
+        <a>회사 소개</a>
+        <a>인증 및 수상</a>
+        <a>뉴스·보도자료</a>
+        <a>채용</a>
+      </div>
+      <div class="footer-contact">
+        <h5>연락처</h5>
+        <div class="footer-contact-group">
+          <div class="footer-contact-label">영업 문의</div>
+          <div class="footer-contact-tel">02-2088-4834</div>
+          <div class="footer-contact-email">sales@stealien.com</div>
+        </div>
+        <div class="footer-contact-group">
+          <div class="footer-contact-label">기술 지원</div>
+          <div class="footer-contact-tel">02-2088-4835</div>
+          <div class="footer-contact-email">se@stealien.com</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">COPYRIGHT © 2026 STEALIEN Inc. ALL RIGHTS RESERVED.</span>
+      <div class="footer-bottom-links">
+        <a>개인정보처리방침</a>
+        <a>이용약관</a>
+        <a>사이트맵</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

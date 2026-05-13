@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Security Consulting — 종합 보안 컨설팅 서비스 | STEALIEN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   TOKENS
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+:root {
+  --ink:        #0A1A14;
+  --ink-mid:    #2C4A3E;
+  --ink-mute:   #6B8C80;
+  --teal:       #1D9E75;
+  --teal-hi:    #25C490;
+  --teal-pale:  #E6F7F0;
+  --teal-dark:  #041A14;
+  --border:     rgba(29,158,117,0.12);
+  --border-mid: rgba(29,158,117,0.22);
+  --white:      #FFFFFF;
+  --font-main:  'DM Sans', sans-serif;
+  --font-mono:  'DM Mono', monospace;
+}
+
+/* RESET & BASE */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-main);
+  background: var(--white);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+a { text-decoration: none; color: inherit; }
+img { display: block; max-width: 100%; }
+
+/* LAYOUT */
+.wrap { max-width: 1020px; margin: 0 auto; padding: 0 28px; }
+
+/* NAV */
+.nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(4,26,20,0.96);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(29,158,117,0.15);
+}
+.nav-inner {
+  max-width: 1020px; margin: 0 auto; padding: 0 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 56px;
+}
+.nav-brand { display: flex; align-items: center; gap: 10px; }
+.nav-brand-logo {
+  width: 28px; height: 28px;
+  background: var(--teal);
+  border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+}
+.nav-brand-logo svg { width: 16px; height: 16px; }
+.nav-brand-name { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.85); letter-spacing: 0.03em; }
+.nav-brand-name span { color: var(--teal-hi); }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { font-size: 12px; color: rgba(255,255,255,0.45); transition: color .15s; }
+.nav-links a:hover { color: rgba(255,255,255,0.8); }
+.nav-cta {
+  background: var(--teal); color: var(--white);
+  font-size: 12px; font-weight: 500;
+  padding: 7px 18px; border-radius: 5px;
+  transition: background .15s;
+}
+.nav-cta:hover { background: var(--teal-hi); }
+
+/* SECTION FRAME */
+.section { padding: 28px 0; }
+.sec-title {
+  font-size: 30px; font-weight: 500;
+  color: var(--ink); line-height: 1.25;
+  margin-bottom: 6px;
+}
+.sec-desc {
+  font-size: 14px; color: var(--ink-mute);
+  line-height: 1.75; max-width: 780px;
+  margin-bottom: 16px;
+}
+.sec-title.center { text-align: center; }
+.sec-desc.center { text-align: center; max-width: none; margin-left: auto; margin-right: auto; }
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ① HERO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.hero {
+  background: var(--teal-dark);
+  padding: 72px 0 56px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; right: -120px; top: -120px;
+  width: 520px; height: 520px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(29,158,117,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-inner { display: grid; grid-template-columns: 1fr 380px; gap: 60px; align-items: center; }
+.hero-service-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 11px; color: var(--teal-hi);
+  letter-spacing: 0.08em; margin-bottom: 18px;
+}
+.hero-service-tag-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--teal); animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+.hero h1 {
+  font-size: 30px; font-weight: 500; color: var(--white);
+  line-height: 1.3; margin-bottom: 18px; letter-spacing: -0.01em;
+}
+.hero h1 em { color: var(--teal-hi); font-style: normal; }
+.hero-sub {
+  font-size: 15px; color: rgba(255,255,255,0.55);
+  line-height: 1.8;
+}
+.hero-tab-bar {
+  margin-top: 40px; padding: 6px 8px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 999px;
+  display: flex; gap: 2px; flex-wrap: wrap; align-items: center;
+  justify-content: space-between;
+}
+.hero-tab {
+  font-size: 12px; color: rgba(255,255,255,0.55);
+  padding: 8px 18px; border-radius: 999px;
+  cursor: pointer; text-decoration: none;
+  transition: color .15s, background .15s;
+  font-weight: 500;
+  flex: 1; text-align: center; min-width: 0;
+  white-space: nowrap;
+}
+.hero-tab:hover { color: rgba(255,255,255,0.9); }
+.hero-tab.active {
+  background: var(--teal-hi);
+  color: var(--white);
+  font-weight: 600;
+}
+.hero-graphic { position: relative; height: 280px; }
+.hero-graphic svg { width: 100%; height: 100%; }
+
+/* feature pills */
+.feature-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 36px;
+}
+.feature-pill {
+  font-size: 12px;
+  color: var(--ink-mid);
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 7px 18px;
+  font-weight: 500;
+  white-space: nowrap;
+  font-family: var(--font-main);
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ② 서비스 정의 및 핵심 가치
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.intro-text {
+  font-size: 15px;
+  color: var(--ink-mid);
+  line-height: 1.85;
+  text-align: center;
+  max-width: 960px;
+  margin: 0 auto 40px;
+}
+.intro-text strong {
+  color: var(--teal);
+  font-weight: 500;
+}
+.value-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 16px;
+}
+.value-card {
+  background: var(--white);
+  border: 1px solid var(--border-mid);
+  border-radius: 12px;
+  padding: 26px 24px;
+  position: relative;
+}
+.value-card-icon {
+  width: 40px; height: 40px; border-radius: 10px;
+  background: var(--teal-pale); color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+}
+.value-card-icon svg { width: 20px; height: 20px; }
+.value-card-name {
+  font-size: 15px; font-weight: 500; color: var(--ink);
+  margin-bottom: 8px; line-height: 1.35;
+}
+.value-card-desc {
+  font-size: 12px; color: var(--ink-mute);
+  line-height: 1.7;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ③ 혹시 이런 상황 — 6 시나리오 카드
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.situation-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+}
+.situation-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 22px 24px;
+  display: flex; align-items: flex-start; gap: 14px;
+}
+.situation-card-icon {
+  width: 36px; height: 36px;
+  border-radius: 9px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.situation-card-icon svg { width: 18px; height: 18px; }
+.situation-card-text {
+  font-size: 13.5px;
+  color: var(--ink);
+  line-height: 1.55;
+  font-weight: 500;
+  padding-top: 6px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ④ 주요 보안 컨설팅 서비스 — 4 분야 + Compliance 상세
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.area-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+.area-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 22px 22px 24px;
+  display: flex; flex-direction: column;
+  gap: 4px;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.area-card:hover {
+  background: rgba(29,158,117,0.04);
+  border-color: var(--border-mid);
+}
+.area-card.area-card-active {
+  background: var(--teal-pale);
+  border: 1px solid var(--teal);
+}
+.area-card-num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.06em;
+}
+.area-card.area-card-active .area-card-num { color: var(--teal); }
+.area-card-tag {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+  letter-spacing: 0.10em;
+  margin-bottom: 4px;
+}
+.area-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.area-detail {
+  background: var(--white);
+  padding: 28px 32px 32px;
+  display: none;
+}
+.area-detail.area-detail-active {
+  display: block;
+}
+.area-detail-head {
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 14px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.area-detail-num {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: var(--teal);
+  color: var(--white);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.area-detail-title-block { display: flex; flex-direction: column; gap: 3px; }
+.area-detail-tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--teal);
+  letter-spacing: 0.08em;
+}
+.area-detail-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+.area-detail-en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+}
+.area-detail-desc {
+  font-size: 14px;
+  color: var(--ink-mid);
+  line-height: 1.75;
+  margin-bottom: 16px;
+}
+.area-detail-pills {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-bottom: 24px;
+}
+.area-detail-pill {
+  font-size: 11px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 5px 13px;
+  font-weight: 500;
+}
+.area-detail-section {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 26px 26px;
+}
+.area-detail-section-icon {
+  width: 44px; height: 44px;
+  border-radius: 10px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 18px;
+}
+.area-detail-section-icon svg { width: 20px; height: 20px; }
+.area-detail-section-pill {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 4px;
+  padding: 4px 10px;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+.area-detail-section-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 4px;
+  line-height: 1.35;
+}
+.area-detail-section-en {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+.area-detail-section-desc {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.area-detail-list {
+  display: flex; flex-direction: column;
+  gap: 10px;
+}
+.area-detail-item {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 18px;
+  align-items: baseline;
+  padding: 9px 0;
+}
+.area-detail-item-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+}
+.area-detail-item-desc {
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  line-height: 1.55;
+}
+/* 02·03·04 분야의 bullets 리스트 */
+.area-detail-bullets {
+  display: flex; flex-direction: column;
+  gap: 10px;
+}
+.area-detail-bullet {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.65;
+  padding-left: 14px;
+  position: relative;
+}
+.area-detail-bullet::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 8px;
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--teal);
+}
+.area-detail-bullet-name {
+  font-weight: 600;
+  color: var(--ink);
+}
+/* 03 STRATEGIC: 3컬럼 / 04 PRIVACY: 2컬럼 */
+.area-detail-3col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.area-detail-2col {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑤ STL-CSCM 컨설팅 프로세스 매트릭스
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.cscm-wrap {
+  margin-top: 12px;
+  background: var(--white);
+  border-top: 1px solid var(--border-mid);
+  border-bottom: 1px solid var(--border-mid);
+  border-radius: 0;
+  padding: 28px 32px 32px;
+}
+.cscm-headline {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 24px;
+}
+.cscm-matrix {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 10px;
+}
+.cscm-stage { display: flex; flex-direction: column; gap: 8px; }
+.cscm-stage-header {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.cscm-stage-box {
+  flex: 1;
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 12px 8px 14px;
+  text-align: center;
+  display: flex; flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.cscm-stage-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--ink-mute);
+  letter-spacing: 0.04em;
+  font-weight: 500;
+}
+.cscm-stage-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+.cscm-stage-arrow {
+  width: 18px;
+  flex-shrink: 0;
+  text-align: center;
+  font-size: 18px;
+  color: var(--ink-mute);
+  line-height: 1;
+  font-weight: 300;
+}
+.cscm-stage-tasks { display: flex; flex-direction: column; gap: 6px; }
+.cscm-task {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  padding: 10px 8px;
+  display: flex; flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.cscm-task-code {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--teal);
+  letter-spacing: 0.05em;
+  font-weight: 600;
+}
+.cscm-task-name {
+  font-size: 11px;
+  color: var(--ink);
+  text-align: center;
+  line-height: 1.35;
+}
+.cscm-foot {
+  margin-top: 22px;
+  padding-top: 18px;
+  display: flex; flex-direction: column;
+  gap: 6px;
+}
+.cscm-foot-line {
+  font-size: 12.5px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+  text-align: center;
+}
+.cscm-foot-line strong {
+  color: var(--teal);
+  font-weight: 600;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑥ 기대 효과 — 3개 카드
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 12px;
+}
+.benefit-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 26px 24px 28px;
+  display: flex; flex-direction: column;
+  gap: 10px;
+  text-align: center;
+  align-items: center;
+}
+.benefit-card-icon {
+  width: 44px; height: 44px;
+  border-radius: 11px;
+  background: var(--teal-pale);
+  color: var(--teal);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 6px;
+}
+.benefit-card-icon svg { width: 22px; height: 22px; }
+.benefit-card-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.4;
+}
+.benefit-card-desc {
+  font-size: 13px;
+  color: var(--ink-mute);
+  line-height: 1.7;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑦ 레퍼런스 — 10개 알약 로고 띠
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.ref-meta-row {
+  display: flex; justify-content: center; align-items: center;
+  gap: 12px;
+  margin-top: 4px;
+  margin-bottom: 18px;
+}
+.ref-meta-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--teal);
+  background: var(--teal-pale);
+  border: 1px solid var(--border-mid);
+  border-radius: 999px;
+  padding: 4px 12px;
+  letter-spacing: 0.08em;
+}
+.ref-logo-strip {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.ref-logo-pill {
+  display: inline-flex;
+  align-items: center;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 22px;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--ink);
+  letter-spacing: -0.01em;
+}
+.ref-foot-note {
+  font-size: 11.5px;
+  color: var(--ink-mute);
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑧ FAQ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.faq-list { display: flex; flex-direction: column; gap: 0; }
+.faq-item { overflow: hidden; }
+.faq-q {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 0; cursor: pointer; gap: 12px;
+}
+.faq-q-text { font-size: 14px; color: var(--ink); font-weight: 500; line-height: 1.5; }
+.faq-toggle {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--white); border: 1px solid var(--border); flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; color: var(--teal);
+  font-weight: 300; line-height: 1;
+}
+.faq-item.open .faq-toggle { background: var(--teal); color: var(--white); border-color: var(--teal); }
+.faq-a {
+  font-size: 13px; color: var(--ink-mute); line-height: 1.8;
+  padding: 4px 0 18px; display: none;
+}
+.faq-item.open .faq-a { display: block; }
+.faq-wrap { max-width: 780px; margin: 0 auto; }
+.faq-more {
+  display: inline-block;
+  margin-top: 14px;
+  font-size: 13px;
+  color: var(--teal);
+  font-weight: 500;
+}
+
+/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━
+   ⑨ CTA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+.cta-section {
+  background: var(--teal-pale); padding: 56px 0; text-align: center;
+  border-top: 1px solid var(--border-mid);
+}
+.cta-section h2 { font-size: 28px; font-weight: 500; color: var(--ink); margin-bottom: 10px; }
+.cta-section p { font-size: 14px; color: var(--ink-mid); margin-bottom: 28px; line-height: 1.75; }
+.cta-btns { display: flex; justify-content: center; gap: 12px; }
+.btn-cta { background: var(--teal); color: var(--white); font-size: 13px; font-weight: 500; padding: 12px 28px; border-radius: 6px; transition: background .15s; }
+.btn-cta:hover { background: var(--teal-hi); }
+.btn-cta-outline { border: 1px solid var(--border-mid); color: var(--ink-mid); font-size: 13px; padding: 12px 28px; border-radius: 6px; transition: border-color .15s, color .15s; background: var(--white); }
+.btn-cta-outline:hover { border-color: var(--teal); color: var(--teal); }
+
+/* FOOTER */
+.footer { background: #F7F8F7; padding: 48px 0 0; border-top: 1px solid #E4E9E6; }
+.footer-inner { display: grid; grid-template-columns: 220px 160px 160px 260px; gap: 0; margin-bottom: 0; }
+.footer-brand { padding-right: 40px; }
+.footer-logo { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.footer-logo-mark { width: 28px; height: 28px; }
+.footer-logo-name { font-size: 15px; font-weight: 700; color: #5B3FBF; letter-spacing: 0.02em; }
+.footer-brand-desc { font-size: 12px; color: #6B7C74; line-height: 1.7; margin-bottom: 18px; }
+.footer-sns { display: flex; gap: 8px; }
+.footer-sns-icon { width: 30px; height: 30px; border-radius: 4px; border: 1px solid #D8DDD9; background: var(--white); display: flex; align-items: center; justify-content: center; font-size: 12px; color: #5B7068; cursor: pointer; }
+.footer-col { padding: 0 20px; }
+.footer-col h5 { font-size: 13px; font-weight: 600; color: #1A2E26; margin-bottom: 14px; }
+.footer-col a { display: block; font-size: 13px; color: #5B7068; margin-bottom: 10px; cursor: pointer; }
+.footer-col a:hover { color: var(--teal); }
+.footer-contact { padding-left: 20px; }
+.footer-contact h5 { font-size: 13px; font-weight: 600; color: #1A2E26; margin-bottom: 14px; }
+.footer-contact-group { margin-bottom: 14px; }
+.footer-contact-label { font-size: 12px; font-weight: 600; color: #1A2E26; margin-bottom: 3px; }
+.footer-contact-tel { font-size: 12px; color: #5B7068; margin-bottom: 2px; }
+.footer-contact-email { font-size: 12px; color: var(--teal); }
+.footer-bottom { border-top: 1px solid #D8DDD9; margin-top: 36px; padding: 16px 0; display: flex; justify-content: space-between; align-items: center; }
+.footer-copyright { font-size: 11px; color: #8FA89C; }
+.footer-bottom-links { display: flex; gap: 16px; }
+.footer-bottom-links a { font-size: 11px; color: #5B7068; cursor: pointer; }
+.footer-bottom-links a:hover { color: var(--teal); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand">
+      <div class="nav-brand-logo">
+        <svg viewBox="0 0 16 16" fill="none"><path d="M8 2L2 5v4c0 3 2.5 5.2 6 6 3.5-.8 6-3 6-6V5L8 2z" fill="white" opacity=".9"/></svg>
+      </div>
+      <span class="nav-brand-name">STEALIEN <span>Security Consulting</span></span>
+    </div>
+    <div class="nav-links">
+      <a href="#value">서비스 철학</a>
+      <a href="#scope">상황 진단</a>
+      <a href="#services">컨설팅 서비스</a>
+      <a href="#process">STL-CSCM</a>
+      <a href="#benefit">기대 효과</a>
+      <a href="#ref">레퍼런스</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#cta" class="nav-cta">도입 문의</a>
+  </div>
+</nav>
+
+<!-- ① HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-service-tag">
+          <div class="hero-service-tag-dot"></div>
+          Security Consulting
+        </div>
+        <h1>구조 개선과 대응 전략 중심의<br><em>종합 보안 컨설팅</em></h1>
+        <p class="hero-sub">모바일·웹·클라우드 등 복잡한 환경에서<br>서비스 전체를 아우르는 종합 보안 컨설팅 서비스 제공</p>
+      </div>
+      <div class="hero-graphic">
+        <svg viewBox="0 0 340 260" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- 좌측: 점검 클립보드 (GAPS FOUND) -->
+          <g>
+            <rect x="22" y="100" width="60" height="90" rx="8" fill="rgba(232,160,32,0.08)" stroke="rgba(232,160,32,0.4)" stroke-width="0.8"/>
+            <rect x="42" y="106" width="20" height="6" rx="1" fill="rgba(232,160,32,0.55)"/>
+            <!-- 미충족 항목 (X) -->
+            <g>
+              <rect x="32" y="120" width="5" height="5" rx="1" fill="none" stroke="rgba(232,160,32,0.7)" stroke-width="0.6"/>
+              <line x1="32.5" y1="120.5" x2="36.5" y2="124.5" stroke="#D94F3D" stroke-width="0.8"/>
+              <line x1="36.5" y1="120.5" x2="32.5" y2="124.5" stroke="#D94F3D" stroke-width="0.8"/>
+              <line x1="42" y1="123" x2="72" y2="123" stroke="rgba(232,160,32,0.5)" stroke-width="0.5"/>
+            </g>
+            <g>
+              <rect x="32" y="132" width="5" height="5" rx="1" fill="none" stroke="rgba(232,160,32,0.7)" stroke-width="0.6"/>
+              <line x1="32.5" y1="132.5" x2="36.5" y2="136.5" stroke="#D94F3D" stroke-width="0.8"/>
+              <line x1="36.5" y1="132.5" x2="32.5" y2="136.5" stroke="#D94F3D" stroke-width="0.8"/>
+              <line x1="42" y1="135" x2="68" y2="135" stroke="rgba(232,160,32,0.5)" stroke-width="0.5"/>
+            </g>
+            <g>
+              <rect x="32" y="144" width="5" height="5" rx="1" fill="none" stroke="rgba(232,160,32,0.7)" stroke-width="0.6"/>
+              <line x1="32.5" y1="144.5" x2="36.5" y2="148.5" stroke="#D94F3D" stroke-width="0.8"/>
+              <line x1="36.5" y1="144.5" x2="32.5" y2="148.5" stroke="#D94F3D" stroke-width="0.8"/>
+              <line x1="42" y1="147" x2="70" y2="147" stroke="rgba(232,160,32,0.5)" stroke-width="0.5"/>
+            </g>
+            <g>
+              <rect x="32" y="156" width="5" height="5" rx="1" fill="none" stroke="rgba(232,160,32,0.7)" stroke-width="0.6"/>
+              <line x1="32.5" y1="156.5" x2="36.5" y2="160.5" stroke="#D94F3D" stroke-width="0.8"/>
+              <line x1="36.5" y1="156.5" x2="32.5" y2="160.5" stroke="#D94F3D" stroke-width="0.8"/>
+              <line x1="42" y1="159" x2="65" y2="159" stroke="rgba(232,160,32,0.5)" stroke-width="0.5"/>
+            </g>
+            <text x="52" y="180" text-anchor="middle" font-size="7" fill="#C99520" font-family="DM Mono" letter-spacing="0.05em">GAPS FOUND</text>
+          </g>
+
+          <!-- 좌→중앙 -->
+          <line x1="82" y1="140" x2="125" y2="140" stroke="#E8A020" stroke-width="0.8" stroke-dasharray="4 3" opacity="0.7"/>
+          <circle r="2" fill="#E8A020">
+            <animateMotion dur="2s" repeatCount="indefinite" path="M 84 140 L 124 140"/>
+            <animate attributeName="opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+          </circle>
+
+          <!-- 중앙: STL-CSCM 6노드 -->
+          <g>
+            <path d="M170 88 L138 100 L138 138 Q138 168 170 184 Q202 168 202 138 L202 100 Z"
+                  fill="rgba(37,196,144,0.20)" stroke="#25C490" stroke-width="1.4"/>
+            <circle cx="170" cy="116" r="3.5" fill="#25C490" opacity="0.85"/>
+            <circle cx="156" cy="128" r="3" fill="#25C490" opacity="0.7"/>
+            <circle cx="184" cy="128" r="3" fill="#25C490" opacity="0.7"/>
+            <circle cx="156" cy="148" r="3" fill="#25C490" opacity="0.55"/>
+            <circle cx="184" cy="148" r="3" fill="#25C490" opacity="0.55"/>
+            <circle cx="170" cy="160" r="3.5" fill="#25C490" opacity="0.85"/>
+            <line x1="170" y1="116" x2="156" y2="128" stroke="#25C490" stroke-width="0.5" opacity="0.5"/>
+            <line x1="170" y1="116" x2="184" y2="128" stroke="#25C490" stroke-width="0.5" opacity="0.5"/>
+            <line x1="156" y1="128" x2="156" y2="148" stroke="#25C490" stroke-width="0.5" opacity="0.5"/>
+            <line x1="184" y1="128" x2="184" y2="148" stroke="#25C490" stroke-width="0.5" opacity="0.5"/>
+            <line x1="156" y1="148" x2="170" y2="160" stroke="#25C490" stroke-width="0.5" opacity="0.5"/>
+            <line x1="184" y1="148" x2="170" y2="160" stroke="#25C490" stroke-width="0.5" opacity="0.5"/>
+            <line x1="170" y1="116" x2="170" y2="160" stroke="#25C490" stroke-width="0.4" opacity="0.35" stroke-dasharray="2 2"/>
+            <text x="170" y="178" text-anchor="middle" font-size="8" fill="#5DCAA5" font-family="DM Mono" letter-spacing="0.05em">STL-CSCM</text>
+            <circle cx="170" cy="138" r="60" fill="none" stroke="#25C490" stroke-width="0.5" opacity="0.4">
+              <animate attributeName="r" values="60;72;60" dur="2.4s" repeatCount="indefinite"/>
+              <animate attributeName="opacity" values="0.4;0;0.4" dur="2.4s" repeatCount="indefinite"/>
+            </circle>
+          </g>
+
+          <!-- 중앙→우측 -->
+          <line x1="202" y1="140" x2="258" y2="140" stroke="rgba(37,196,144,0.5)" stroke-width="0.7" stroke-dasharray="3 3"/>
+          <circle r="2" fill="#25C490">
+            <animateMotion dur="1.6s" repeatCount="indefinite" path="M 204 140 L 256 140"/>
+          </circle>
+
+          <!-- 우측: 인증 메달 -->
+          <g>
+            <rect x="258" y="100" width="60" height="90" rx="8" fill="rgba(29,158,117,0.10)" stroke="#25C490" stroke-width="1"/>
+            <circle cx="288" cy="125" r="11" fill="rgba(29,158,117,0.20)" stroke="#25C490" stroke-width="1"/>
+            <text x="288" y="129" text-anchor="middle" font-size="9" fill="#25C490" font-family="DM Mono">✓</text>
+            <text x="288" y="146" text-anchor="middle" font-size="6" fill="#5DCAA5" font-family="DM Mono">CERTIFIED</text>
+            <rect x="266" y="155" width="44" height="8" rx="1" fill="rgba(29,158,117,0.18)"/>
+            <text x="288" y="161" text-anchor="middle" font-size="5" fill="#25C490" font-family="DM Mono">ISMS-P</text>
+            <rect x="266" y="167" width="44" height="8" rx="1" fill="rgba(29,158,117,0.18)"/>
+            <text x="288" y="173" text-anchor="middle" font-size="5" fill="#25C490" font-family="DM Mono">ISO 27001</text>
+          </g>
+
+          <text x="170" y="36" text-anchor="middle" font-size="10" fill="#5DCAA5" font-family="DM Mono" letter-spacing="0.1em">ASSESS · IMPROVE · CERTIFY</text>
+          <rect x="92" y="218" width="156" height="22" rx="5" fill="rgba(29,158,117,0.12)" stroke="rgba(29,158,117,0.3)" stroke-width="0.8"/>
+          <text x="170" y="232" text-anchor="middle" font-size="9" fill="#5DCAA5" font-family="DM Mono">검증된 STL-CSCM 방법론</text>
+        </svg>
+      </div>
+    </div>
+    <!-- Hero 탭 바 (컨설팅 4종) -->
+    <div class="hero-tab-bar">
+      <a class="hero-tab" href="#">모의침투테스트 / 레드팀서비스</a>
+      <a class="hero-tab active" href="#">보안 컨설팅</a>
+      <a class="hero-tab" href="#">AI RedTeaming</a>
+      <a class="hero-tab" href="#">AI해커 기반 모의해킹 서비스</a>
+    </div>
+  </div>
+</section>
+
+<!-- ② 서비스 정의 및 핵심 가치 -->
+<section class="section" id="value">
+  <div class="wrap">
+    <div class="feature-pills">
+      <span class="feature-pill">보안 컴플라이언스</span>
+      <span class="feature-pill">취약점 진단 컨설팅</span>
+      <span class="feature-pill">종합 보안 컨설팅</span>
+      <span class="feature-pill">개인정보보호</span>
+      <span class="feature-pill">STL-CSCM 방법론</span>
+    </div>
+    <div class="sec-title center" style="margin-bottom:20px">고도화된 보안의 기준은 ─ 핵심 위협의 완벽한 차단입니다</div>
+    <p class="intro-text">고도화된 보안 환경에서는 단순 점검만으로 실제 공격을 막을 수 없습니다.<br>공격자는 보안의 빈틈을 연결해 예상하지 못한 경로로 침투하고,<br>결과적으로 탐지되지 않은 위협이 서비스 장애와 정보 유출로 이어집니다.</p>
+
+    <div class="value-grid">
+      <div class="value-card">
+        <div class="value-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="2" y1="12" x2="22" y2="12"></line>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+          </svg>
+        </div>
+        <div class="value-card-name">다양한 측면의 위험 분석</div>
+        <div class="value-card-desc">관리적·기술적·물리적·법적 분야 전반의 정보보호 및 개인정보보호 위험을 다각도로 식별합니다.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <div class="value-card-name">합리적이고 실질적인 위험평가</div>
+        <div class="value-card-desc">기업 특성과 비즈니스 맥락을 반영한 위험 우선순위 평가로 합리적인 의사결정을 지원합니다.</div>
+      </div>
+      <div class="value-card">
+        <div class="value-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <div class="value-card-name">즉시 적용 가능한 개선 가이드</div>
+        <div class="value-card-desc">단순 진단 결과 통보가 아닌, 현업에 즉시 적용 가능한 수준의 구체적 개선 가이드를 제공합니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ③ 혹시 이런 상황 — 6 시나리오 카드 -->
+<section class="section" id="scope">
+  <div class="wrap">
+    <div class="sec-title center">혹시 이런 상황에 처해 있으신가요?</div>
+    <p class="sec-desc center">스틸리언 보안 컨설팅이 가장 효과적으로 활용되는 6가지 대표 상황입니다.</p>
+
+    <div class="situation-grid">
+      <div class="situation-card">
+        <div class="situation-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+        </div>
+        <div class="situation-card-text">보안 점검을 받았는데, 어떻게 고쳐야 할지 모르겠다</div>
+      </div>
+      <div class="situation-card">
+        <div class="situation-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <polyline points="9 12 11 14 15 10"></polyline>
+          </svg>
+        </div>
+        <div class="situation-card-text">ISMS 인증을 준비 중인데 무엇부터 시작해야 할지 막막하다</div>
+      </div>
+      <div class="situation-card">
+        <div class="situation-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+        </div>
+        <div class="situation-card-text">보유하고 있는 개인정보가 안전하게 관리되고 있는지 점검이 필요하다</div>
+      </div>
+      <div class="situation-card">
+        <div class="situation-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+        </div>
+        <div class="situation-card-text">정보시스템의 도입·개발·변경 시 보안 검증이 필요하다</div>
+      </div>
+      <div class="situation-card">
+        <div class="situation-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+            <line x1="8" y1="21" x2="16" y2="21"></line>
+            <line x1="12" y1="17" x2="12" y2="21"></line>
+          </svg>
+        </div>
+        <div class="situation-card-text">정보통신 서비스를 운영하는데 IT 보안이 걱정된다</div>
+      </div>
+      <div class="situation-card">
+        <div class="situation-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <div class="situation-card-text">임원진에게 현재 보안 수준과 개선 로드맵을 설명해야 한다</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ④ 주요 보안 컨설팅 서비스 — 4 분야 + Compliance 상세 -->
+<section class="section" id="services">
+  <div class="wrap">
+    <div class="sec-title center">주요 보안 컨설팅 서비스</div>
+    <p class="sec-desc center">기업의 보안 수준과 상황에 맞춰 4개 핵심 분야에서 종합적인 컨설팅을 제공합니다.</p>
+
+    <div class="area-grid">
+      <div class="area-card area-card-active" data-area="compliance" onclick="switchArea(this, 'compliance')">
+        <div class="area-card-num">01</div>
+        <div class="area-card-tag">COMPLIANCE</div>
+        <div class="area-card-name">보안 컴플라이언스 컨설팅</div>
+      </div>
+      <div class="area-card" data-area="vulnerability" onclick="switchArea(this, 'vulnerability')">
+        <div class="area-card-num">02</div>
+        <div class="area-card-tag">VULNERABILITY</div>
+        <div class="area-card-name">보안 취약점 진단 컨설팅</div>
+      </div>
+      <div class="area-card" data-area="strategic" onclick="switchArea(this, 'strategic')">
+        <div class="area-card-num">03</div>
+        <div class="area-card-tag">STRATEGIC</div>
+        <div class="area-card-name">종합 보안 컨설팅</div>
+      </div>
+      <div class="area-card" data-area="privacy" onclick="switchArea(this, 'privacy')">
+        <div class="area-card-num">04</div>
+        <div class="area-card-tag">PRIVACY</div>
+        <div class="area-card-name">개인정보보호 컨설팅</div>
+      </div>
+    </div>
+
+    <!-- 01 COMPLIANCE 상세 -->
+    <div class="area-detail area-detail-active" data-area-detail="compliance">
+      <div class="area-detail-head">
+        <div class="area-detail-num">01</div>
+        <div class="area-detail-title-block">
+          <div class="area-detail-tag">COMPLIANCE · 컴플라이언스</div>
+          <div class="area-detail-title">보안 컴플라이언스 컨설팅</div>
+          <div class="area-detail-en">SECURITY COMPLIANCE CONSULTING</div>
+        </div>
+      </div>
+      <p class="area-detail-desc">국내 ISMS · ISMS-P, 국제 ISO/IEC 27001 · 27701까지 — 정보보호 관리체계 인증 취득과 유지관리 전 과정을 지원합니다. 단순 인증 통과가 아닌, 실질적 보안 수준 향상이 목표입니다.</p>
+
+      <div class="area-detail-pills">
+        <span class="area-detail-pill">ISMS</span>
+        <span class="area-detail-pill">ISMS-P</span>
+        <span class="area-detail-pill">ISO 27001</span>
+        <span class="area-detail-pill">ISO 27701</span>
+      </div>
+
+      <div class="area-detail-section">
+        <div class="area-detail-section-title">관리체계 인증 컨설팅 — Management System Certification</div>
+        <p class="area-detail-section-desc">국내외 대표 정보보호 관리체계 인증 취득을 위한 전 과정 컨설팅을 수행합니다. 갭 분석부터 심사 대응, 인증 후 유지관리까지 스틸리언이 함께합니다. 현업 영향을 최소화하여 실질적 보안 체계를 구축합니다.</p>
+
+        <div class="area-detail-list">
+          <div class="area-detail-item">
+            <span class="area-detail-item-name">KISA ISMS-P</span>
+            <span class="area-detail-item-desc">정보보호 및 개인정보보호 관리체계 인증</span>
+          </div>
+          <div class="area-detail-item">
+            <span class="area-detail-item-name">KISA ISMS</span>
+            <span class="area-detail-item-desc">정보보호 관리체계 인증</span>
+          </div>
+          <div class="area-detail-item">
+            <span class="area-detail-item-name">ISO/IEC 27001</span>
+            <span class="area-detail-item-desc">국제 정보보호 관리체계 표준(정보 보안 경영 시스템)</span>
+          </div>
+          <div class="area-detail-item">
+            <span class="area-detail-item-name">ISO/IEC 27701</span>
+            <span class="area-detail-item-desc">개인정보 관리체계 국제 표준(개인정보 관리 시스템)</span>
+          </div>
+          <div class="area-detail-item">
+            <span class="area-detail-item-name">Gap Analysis</span>
+            <span class="area-detail-item-desc">인증 기준 대비 현재 수준 진단</span>
+          </div>
+          <div class="area-detail-item">
+            <span class="area-detail-item-name">심사 대응</span>
+            <span class="area-detail-item-desc">인증 심사원 대응 및 결함 조치</span>
+          </div>
+          <div class="area-detail-item">
+            <span class="area-detail-item-name">사후관리</span>
+            <span class="area-detail-item-desc">연간 유지관리 및 갱신 심사 대응</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 02 VULNERABILITY 상세 -->
+    <div class="area-detail" data-area-detail="vulnerability">
+      <div class="area-detail-head">
+        <div class="area-detail-num">02</div>
+        <div class="area-detail-title-block">
+          <div class="area-detail-tag">VULNERABILITY · 취약점 진단</div>
+          <div class="area-detail-title">보안 취약점 진단 컨설팅</div>
+          <div class="area-detail-en">VULNERABILITY ASSESSMENT CONSULTING</div>
+        </div>
+      </div>
+      <p class="area-detail-desc">주요정보통신기반시설, 전자금융기반시설, 클라우드 환경의 취약점을 최신 기준으로 진단하고, 인프라 전반의 기술적 취약점을 체계적으로 식별하여 개선 방안을 제시합니다.</p>
+
+      <div class="area-detail-section">
+        <div class="area-detail-section-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+        <span class="area-detail-section-pill">주요정보통신기반시설 기반</span>
+        <div class="area-detail-section-title">취약점 분석·평가 컨설팅</div>
+        <div class="area-detail-section-en">VULNERABILITY ANALYSIS &amp; ASSESSMENT</div>
+        <p class="area-detail-section-desc">주요정보통신기반시설, 전자금융기반시설, 클라우드 환경의 취약점을 각각의 최신 기준으로 진단합니다. 정부 고시 기준, 금융보안원 기준, 클라우드 환경별 보안 기준을 종합 적용하여 체계적인 취약점 평가를 수행합니다.</p>
+
+        <div class="area-detail-bullets">
+          <div class="area-detail-bullet"><span class="area-detail-bullet-name">주요정보통신기반시설</span> — 최신 과학기술정보통신부 고시에 따른 기준으로 취약점 분석·평가</div>
+          <div class="area-detail-bullet"><span class="area-detail-bullet-name">전자금융기반시설</span> — 금융보안원에서 공표한 최신 기준으로 보안 취약점 평가</div>
+          <div class="area-detail-bullet"><span class="area-detail-bullet-name">클라우드 취약점 진단</span> — AWS · Azure · GCP IAM · 네트워크 · 저장소 구성 진단</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 03 STRATEGIC 상세 -->
+    <div class="area-detail" data-area-detail="strategic">
+      <div class="area-detail-head">
+        <div class="area-detail-num">03</div>
+        <div class="area-detail-title-block">
+          <div class="area-detail-tag">STRATEGIC · 종합 컨설팅</div>
+          <div class="area-detail-title">종합 보안 컨설팅</div>
+          <div class="area-detail-en">COMPREHENSIVE SECURITY CONSULTING</div>
+        </div>
+      </div>
+      <p class="area-detail-desc">중장기 보안 로드맵 수립, 실전형 해킹 메일 훈련, 그리고 맞춤형 실무 교육까지 — 기업의 보안 문화와 체계를 근본적으로 끌어올리는 전략 컨설팅 서비스입니다.</p>
+
+      <div class="area-detail-3col">
+        <div class="area-detail-section">
+          <div class="area-detail-section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 9 12 13 8 21 16"></polyline>
+              <polyline points="14 6 21 6 21 13"></polyline>
+            </svg>
+          </div>
+          <span class="area-detail-section-pill">ROADMAP</span>
+          <div class="area-detail-section-title">마스터플랜 수립</div>
+          <div class="area-detail-section-en">SECURITY MASTER PLAN</div>
+          <p class="area-detail-section-desc">기업의 비즈니스 목표와 위협 환경에 부합하는 3~5년 중장기 보안 로드맵을 설계합니다. 현 수준 진단, 목표 수준 정의, 연도별 실행 과제 도출까지 종합적으로 지원합니다.</p>
+          <div class="area-detail-bullets">
+            <div class="area-detail-bullet">현 보안 수준 종합 진단</div>
+            <div class="area-detail-bullet">목표 수준·Gap 정의</div>
+            <div class="area-detail-bullet">연도별 실행 과제 도출</div>
+          </div>
+        </div>
+        <div class="area-detail-section">
+          <div class="area-detail-section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <line x1="9" y1="10" x2="15" y2="10"></line>
+            </svg>
+          </div>
+          <span class="area-detail-section-pill">PHISHING DRILL</span>
+          <div class="area-detail-section-title">해킹 메일 훈련</div>
+          <div class="area-detail-section-en">PHISHING SIMULATION</div>
+          <p class="area-detail-section-desc">최신 피싱 시나리오를 기반으로 임직원 대상 모의 해킹 메일 훈련을 수행합니다. 클릭률·첨부파일 실행률·자격증명 입력률을 정량 측정하고, 취약 인원 대상 타깃 보안 교육을 연계합니다.</p>
+          <div class="area-detail-bullets">
+            <div class="area-detail-bullet">정기·상시 피싱 시뮬레이션</div>
+            <div class="area-detail-bullet">경영진 대상 Spear Phishing</div>
+            <div class="area-detail-bullet">부서별·직급별 통계 분석</div>
+            <div class="area-detail-bullet">취약 인원 맞춤형 후속 교육</div>
+          </div>
+        </div>
+        <div class="area-detail-section">
+          <div class="area-detail-section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+          </div>
+          <span class="area-detail-section-pill">TRAINING</span>
+          <div class="area-detail-section-title">정보보호 교육</div>
+          <div class="area-detail-section-en">CUSTOM SECURITY TRAINING</div>
+          <p class="area-detail-section-desc">직무와 업무 환경에 최적화된 맞춤형 실무 교육을 제공합니다. 임원·개발자·인사담당자·일반 임직원 등 대상별 커리큘럼으로, 실제 위협 사례와 실습 기반의 몰입형 교육을 수행합니다.</p>
+          <div class="area-detail-bullets">
+            <div class="area-detail-bullet">경영진 대상 사이버 리스크 교육</div>
+            <div class="area-detail-bullet">개발자 시큐어 코딩 교육</div>
+            <div class="area-detail-bullet">일반 임직원 보안 인식 교육</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 04 PRIVACY 상세 -->
+    <div class="area-detail" data-area-detail="privacy">
+      <div class="area-detail-head">
+        <div class="area-detail-num">04</div>
+        <div class="area-detail-title-block">
+          <div class="area-detail-tag">PRIVACY · 개인정보보호</div>
+          <div class="area-detail-title">개인정보보호 컨설팅</div>
+          <div class="area-detail-en">PRIVACY CONSULTING</div>
+        </div>
+      </div>
+      <p class="area-detail-desc">개인정보보호법 개정과 강화되는 규제 환경 속에서, 기업의 개인정보 생애주기 전반과 위·수탁 관계까지 아우르는 실질적 개인정보 거버넌스를 설계합니다.</p>
+
+      <div class="area-detail-2col">
+        <div class="area-detail-section">
+          <div class="area-detail-section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+              <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+              <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+            </svg>
+          </div>
+          <span class="area-detail-section-pill">LIFECYCLE</span>
+          <div class="area-detail-section-title">처리단계별 보호조치 컨설팅</div>
+          <div class="area-detail-section-en">PRIVACY LIFECYCLE SAFEGUARDS</div>
+          <p class="area-detail-section-desc">개인정보 생애주기(수집·이용·보관·제공·파기) 각 단계별 법적 요구사항과 기술적·관리적 보호조치를 종합 점검합니다. 법률 대응과 기술 구현을 동시에 설계하여, 현업에서 즉시 적용 가능한 실천 지침을 제공합니다.</p>
+          <div class="area-detail-bullets">
+            <div class="area-detail-bullet"><span class="area-detail-bullet-name">수집·이용</span> — 동의 설계, 수집 최소화, 목적 명확화</div>
+            <div class="area-detail-bullet"><span class="area-detail-bullet-name">보관·관리</span> — 암호화, 접근통제, 접속기록 관리</div>
+            <div class="area-detail-bullet"><span class="area-detail-bullet-name">제3자 제공</span> — 동의·통지 체계, 해외이전 대응</div>
+            <div class="area-detail-bullet"><span class="area-detail-bullet-name">파기</span> — 보유기간 관리, 안전 파기 절차 수립</div>
+          </div>
+        </div>
+        <div class="area-detail-section">
+          <div class="area-detail-section-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+          </div>
+          <span class="area-detail-section-pill">3RD PARTY</span>
+          <div class="area-detail-section-title">위·수탁사 점검</div>
+          <div class="area-detail-section-en">DATA PROCESSOR AUDIT</div>
+          <p class="area-detail-section-desc">개인정보 처리를 위탁받은 수탁사의 보호조치 이행 수준을 정기 점검하고, 현장 실사와 시정 조치 관리를 통해 위수탁 관리 체계 전반을 구축합니다.</p>
+          <div class="area-detail-bullets">
+            <div class="area-detail-bullet"><span class="area-detail-bullet-name">위수탁 관리 체계 수립</span> — 정책·절차·표준 계약서 마련</div>
+            <div class="area-detail-bullet"><span class="area-detail-bullet-name">수탁사 정기 점검</span> — 서면·현장 실사 기반 평가</div>
+            <div class="area-detail-bullet"><span class="area-detail-bullet-name">시정 조치·사후관리</span> — 부적합 사항 개선 지원</div>
+            <div class="area-detail-bullet"><span class="area-detail-bullet-name">재위탁 관리</span> — 다단계 위탁 구조의 투명성 확보</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑤ STL-CSCM 컨설팅 프로세스 -->
+<section class="section" id="process">
+  <div class="wrap">
+    <div class="sec-title center">컨설팅 프로세스 ─ STL-CSCM 방법론</div>
+    <p class="sec-desc center">STEALIEN Cyber Security Consulting Methodology — 검증된 방법론에 따라 단계별로 진행됩니다.</p>
+
+    <div class="cscm-wrap">
+      <div class="cscm-headline">컨설팅 방법론 수행 단계 및 Task</div>
+
+      <div class="cscm-matrix">
+        <div class="cscm-stage">
+          <div class="cscm-stage-header">
+            <div class="cscm-stage-box">
+              <div class="cscm-stage-num">100</div>
+              <div class="cscm-stage-label">프로젝트 관리</div>
+            </div>
+            <div class="cscm-stage-arrow">›</div>
+          </div>
+          <div class="cscm-stage-tasks">
+            <div class="cscm-task"><div class="cscm-task-code">PM</div><div class="cscm-task-name">프로젝트 관리</div></div>
+          </div>
+        </div>
+        <div class="cscm-stage">
+          <div class="cscm-stage-header">
+            <div class="cscm-stage-box">
+              <div class="cscm-stage-num">200</div>
+              <div class="cscm-stage-label">환경분석</div>
+            </div>
+            <div class="cscm-stage-arrow">›</div>
+          </div>
+          <div class="cscm-stage-tasks">
+            <div class="cscm-task"><div class="cscm-task-code">ENV</div><div class="cscm-task-name">환경분석</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">AST</div><div class="cscm-task-name">자산분석</div></div>
+          </div>
+        </div>
+        <div class="cscm-stage">
+          <div class="cscm-stage-header">
+            <div class="cscm-stage-box">
+              <div class="cscm-stage-num">300</div>
+              <div class="cscm-stage-label">취약점 분석</div>
+            </div>
+            <div class="cscm-stage-arrow">›</div>
+          </div>
+          <div class="cscm-stage-tasks">
+            <div class="cscm-task"><div class="cscm-task-code">MGT</div><div class="cscm-task-name">관리적 점검</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">PHY</div><div class="cscm-task-name">물리적 점검</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">TEC</div><div class="cscm-task-name">기술적 점검</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">PRI</div><div class="cscm-task-name">개인정보 점검</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">COM</div><div class="cscm-task-name">법적 점검</div></div>
+          </div>
+        </div>
+        <div class="cscm-stage">
+          <div class="cscm-stage-header">
+            <div class="cscm-stage-box">
+              <div class="cscm-stage-num">400</div>
+              <div class="cscm-stage-label">위협 평가</div>
+            </div>
+            <div class="cscm-stage-arrow">›</div>
+          </div>
+          <div class="cscm-stage-tasks">
+            <div class="cscm-task"><div class="cscm-task-code">RSK</div><div class="cscm-task-name">위협 평가</div></div>
+          </div>
+        </div>
+        <div class="cscm-stage">
+          <div class="cscm-stage-header">
+            <div class="cscm-stage-box">
+              <div class="cscm-stage-num">500</div>
+              <div class="cscm-stage-label">대책수립</div>
+            </div>
+            <div class="cscm-stage-arrow">›</div>
+          </div>
+          <div class="cscm-stage-tasks">
+            <div class="cscm-task"><div class="cscm-task-code">MEA</div><div class="cscm-task-name">보호대책 수립</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">MAS</div><div class="cscm-task-name">마스터플랜</div></div>
+          </div>
+        </div>
+        <div class="cscm-stage">
+          <div class="cscm-stage-header">
+            <div class="cscm-stage-box">
+              <div class="cscm-stage-num">600</div>
+              <div class="cscm-stage-label">구현관리</div>
+            </div>
+          </div>
+          <div class="cscm-stage-tasks">
+            <div class="cscm-task"><div class="cscm-task-code">POL</div><div class="cscm-task-name">정책수립</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">IMP</div><div class="cscm-task-name">이행점검</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">EDU</div><div class="cscm-task-name">교육</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">AUD</div><div class="cscm-task-name">보안감사</div></div>
+            <div class="cscm-task"><div class="cscm-task-code">CER</div><div class="cscm-task-name">인증지원</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="cscm-foot">
+        <p class="cscm-foot-line"><strong>프로젝트 관리(PM, 100)</strong>는 전체 컨설팅 과정에서 지속적으로 운영됩니다.</p>
+        <p class="cscm-foot-line">각 단계별 산출물과 이행 점검을 통해 컨설팅 품질을 보장하며, 단계 간 연계성을 강화하여 체계적인 보안 개선을 이끌어냅니다.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ⑥ 기대 효과 -->
+<section class="section" id="benefit">
+  <div class="wrap">
+    <div class="sec-title center">기대 효과</div>
+    <p class="sec-desc center">스틸리언 보안 컨설팅을 통해 얻을 수 있는 실질적인 비즈니스 가치입니다.</p>
+
+    <div class="benefit-grid">
+      <div class="benefit-card">
+        <div class="benefit-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <polyline points="9 12 11 14 15 10"></polyline>
+          </svg>
+        </div>
+        <div class="benefit-card-name">보안 사고 선제적 예방</div>
+        <div class="benefit-card-desc">실제 침투 경로를 차단하여 침해사고 발생 가능성을 최소화합니다.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="9" y1="14" x2="15" y2="14"></line>
+          </svg>
+        </div>
+        <div class="benefit-card-name">규제 준수 및 과징금 리스크 해소</div>
+        <div class="benefit-card-desc">강화된 보안 규제에 따른 징벌적 과징금 위협에 선제적으로 대응합니다.</div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-card-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <div class="benefit-card-name">효율적인 보안 투자</div>
+        <div class="benefit-card-desc">우선순위에 따른 자원 배분으로 보안 투자 대비 효율을 극대화합니다.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ⑦ 레퍼런스 -->
+<section class="section" id="ref">
+  <div class="wrap">
+    <div class="sec-title center">다양한 핵심 산업군을 대상으로 검증된 보안 컨설팅</div>
+    <p class="sec-desc center">금융 · 핀테크 · 플랫폼 · 보안 인프라 등 다양한 산업군에서 보안 컨설팅을 성공적으로 수행했습니다.</p>
+
+    <div class="ref-meta-row">
+      <span class="ref-meta-label">Major References</span>
+    </div>
+
+    <div class="ref-logo-strip">
+      <div class="ref-logo-pill">마이브라운</div>
+      <div class="ref-logo-pill">스마일샤크</div>
+      <div class="ref-logo-pill">원티드랩</div>
+      <div class="ref-logo-pill">KIDB</div>
+      <div class="ref-logo-pill">밀리패스</div>
+      <div class="ref-logo-pill">MASA</div>
+      <div class="ref-logo-pill">KCS</div>
+      <div class="ref-logo-pill">KPN</div>
+      <div class="ref-logo-pill">KCD</div>
+      <div class="ref-logo-pill">슈프리마</div>
+    </div>
+    <div class="ref-foot-note">※ 일부 고객사는 비공개 요청에 따라 표기를 생략하였습니다.</div>
+  </div>
+</section>
+
+<!-- ⑧ FAQ -->
+<section class="section" id="faq">
+  <div class="wrap">
+    <div class="sec-title center">자주 묻는 질문</div>
+    <div class="faq-wrap">
+      <div class="faq-list">
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-text">컨설팅 기간은 얼마나 걸리며, 중소기업도 컨설팅을 받을 수 있나요?</span>
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">컨설팅 기간은 대상 범위, 자산 규모, 진행 목적(인증 취득·취약점 진단·종합 컨설팅 등)에 따라 달라집니다. 단일 인증 컨설팅(ISMS 등)은 보통 3~6개월, 종합 보안 컨설팅의 경우 6개월 이상이 일반적이며, 정확한 일정은 사전 Scoping 단계에서 협의해 확정합니다.<br>중소기업도 충분히 컨설팅 대상이 됩니다. 오히려 보안 인력·예산이 제한된 중소기업일수록 STL-CSCM 방법론에 따른 우선순위 기반 컨설팅이 더 효과적입니다. 기업 규모와 보안 성숙도에 맞춰 진단 범위와 기간을 조정해 합리적인 비용으로 실질적 보안 수준 향상을 지원합니다.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-text">컨설팅 결과물은 어떻게 제공되며, 클라우드 환경도 진단 가능한가요?</span>
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">컨설팅 결과는 공식 보고서 형태로 제공되며, 위험 분석 결과·취약점 목록·심각도·즉시 적용 가능한 개선 가이드·중장기 보안 로드맵을 포함합니다. 경영진용 요약 보고서와 실무자용 상세 기술 보고서를 분리해 제공하며, 인증 심사 대응이 필요한 경우 ISMS-P·ISO 27001 등 심사에 그대로 활용 가능한 형태로 정리해 드립니다. 필요 시 결과 브리핑과 Q&amp;A 세션도 함께 진행합니다.<br>클라우드 환경 진단도 핵심 영역 중 하나입니다. AWS·Azure·GCP 등 주요 클라우드 콘솔, 서버, 네트워크 장비, 데이터베이스, 정보보호 시스템, PC 등 다양한 자산을 대상으로 기술 취약점 점검을 수행하며, 주요정보통신기반시설 취약점 분석·평가 기준 등 국내 규제와 클라우드 보안 모범사례(CIS Benchmark 등)를 함께 적용합니다.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span class="faq-q-text">작년에 받은 보안 점검 보고서가 있는데, 올해도 진단이 필요한가요?</span>
+            <div class="faq-toggle">+</div>
+          </div>
+          <div class="faq-a">기존 점검 보고서는 컨설팅 시작 시점의 중요한 입력 자료가 됩니다. 사전 검토 단계에서 작년 보고서를 함께 분석해 이미 파악된 위험·조치 완료 항목·잔여 리스크를 식별하고, 중복 점검을 최소화한 효율적인 컨설팅 범위를 설계합니다.<br>다만 보안은 시점 의존적입니다. 신규 시스템 도입, 클라우드 전환, 조직 변경, 신규 위협(예: 새로운 CVE·랜섬웨어 변종·AI 공격 기법) 등으로 작년에는 안전하던 영역도 올해 새로운 리스크로 부상할 수 있습니다. 정보보호 관리체계는 지속적인 개선 활동이 핵심이며, 정기적인 진단(연 1회 이상 권장)이 보안 수준 유지에 필수입니다.<br>스틸리언은 작년 보고서를 단순 참고 자료로 두지 않고, 그동안의 변화 분석(Delta Analysis)과 함께 새로운 위협 환경에 맞춘 추가 점검 영역을 제안해 효율적이면서도 종합적인 컨설팅을 수행합니다.</div>
+        </div>
+      </div>
+      <a href="#" class="faq-more">FAQ 더보기 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ⑨ CTA -->
+<section class="cta-section" id="cta">
+  <div class="wrap">
+    <h2>글로벌 화이트 해커에게 통합적인 보안 검증 받아보세요</h2>
+    <p>관리적·기술적·물리적·법적 분야 등 다양한 보안 리스크가 급증하고 있습니다.<br>귀사의 서비스 구조와 환경에 맞는 실질적인 보안 체계를 함께 설계합니다.</p>
+    <div class="cta-btns">
+      <a href="#" class="btn-cta">자료 요청</a>
+      <a href="#" class="btn-cta-outline">문의하기</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="wrap">
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <svg class="footer-logo-mark" viewBox="0 0 28 28" fill="none">
+            <rect width="28" height="28" rx="6" fill="#5B3FBF" opacity="0.12"/>
+            <path d="M8 14c0-3.3 2.7-6 6-6s6 2.7 6 6-2.7 6-6 6" stroke="#5B3FBF" stroke-width="2" stroke-linecap="round"/>
+            <circle cx="14" cy="14" r="2.5" fill="#5B3FBF"/>
+          </svg>
+          <span class="footer-logo-name">STEALIEN</span>
+        </div>
+        <p class="footer-brand-desc">첨단 기술을 안전하게 제공하는<br>사이버 보안 전문 기업</p>
+        <div class="footer-sns">
+          <div class="footer-sns-icon">f</div>
+          <div class="footer-sns-icon">𝕏</div>
+          <div class="footer-sns-icon">▶</div>
+          <div class="footer-sns-icon">▤</div>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h5>제품</h5>
+        <a>AppSuit Premium</a>
+        <a>AppSuit Keypad</a>
+        <a>AppSuit AV</a>
+        <a>AppSuit RemoteBlock</a>
+        <a>전체 제품 보기</a>
+      </div>
+      <div class="footer-col">
+        <h5>서비스</h5>
+        <a>모의침투테스트 / 레드팀</a>
+        <a style="color:var(--teal);font-weight:500;">보안 컨설팅</a>
+        <a>AI RedTeaming</a>
+        <a>AI해커 기반 모의해킹</a>
+        <h5 style="margin-top:20px;">회사</h5>
+        <a>회사 소개</a>
+        <a>인증 및 수상</a>
+        <a>뉴스·보도자료</a>
+        <a>채용</a>
+      </div>
+      <div class="footer-contact">
+        <h5>연락처</h5>
+        <div class="footer-contact-group">
+          <div class="footer-contact-label">영업 문의</div>
+          <div class="footer-contact-tel">02-2088-4834</div>
+          <div class="footer-contact-email">sales@stealien.com</div>
+        </div>
+        <div class="footer-contact-group">
+          <div class="footer-contact-label">기술 지원</div>
+          <div class="footer-contact-tel">02-2088-4835</div>
+          <div class="footer-contact-email">se@stealien.com</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span class="footer-copyright">COPYRIGHT © 2026 STEALIEN Inc. ALL RIGHTS RESERVED.</span>
+      <div class="footer-bottom-links">
+        <a>개인정보처리방침</a>
+        <a>이용약관</a>
+        <a>사이트맵</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// 주요 보안 컨설팅 서비스 — 4 분야 카드 클릭 시 상세 전환
+function switchArea(cardEl, areaKey) {
+  document.querySelectorAll('.area-card').forEach(c => c.classList.remove('area-card-active'));
+  document.querySelectorAll('.area-detail').forEach(d => d.classList.remove('area-detail-active'));
+  cardEl.classList.add('area-card-active');
+  const detail = document.querySelector(`.area-detail[data-area-detail="${areaKey}"]`);
+  if (detail) detail.classList.add('area-detail-active');
+}
+
+function toggleFaq(el) {
+  const item = el.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-toggle').textContent = '+';
+  });
+  if (!isOpen) {
+    item.classList.add('open');
+    item.querySelector('.faq-toggle').textContent = '−';
+  }
+}
+</script>
+
+</body>
+</html>
